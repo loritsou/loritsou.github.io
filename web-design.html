@@ -379,6 +379,7 @@
         padding: 2rem 0;
         background: transparent;
         justify-content: flex-start;
+        opacity: 1;
       }
 
       .hint { display: none; }
@@ -684,7 +685,7 @@
       const index        = Math.min(Math.floor((Math.max(0, layoutScroll) / layoutTotal) * STEPS), STEPS - 1);
       const showCTA      = index === STEPS - 1;
 
-      ctaPanel.style.opacity = showCTA ? '1' : '0';
+      if (window.innerWidth > 768) ctaPanel.style.opacity = showCTA ? '1' : '0';
       images.forEach((img, i) => img.classList.toggle('active', !showCTA && i === index));
       siteName.classList.toggle('hidden', scrolled > 20);
       hint.style.opacity = scrolled > maxScroll - 40 ? '0' : '';
