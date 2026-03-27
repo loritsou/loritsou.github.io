@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lori Tsou</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      color: #2c2825;
+      overflow: hidden;
+      height: 100%;
+    }
+
+    .track {
+      position: fixed;
+      top: 0; left: 0;
+      display: flex;
+      height: 100vh;
+      will-change: transform;
+    }
+
+    .panel {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      gap: 6rem;
+    }
+
+    .panel-frame {
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: none;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .panel.in-view .panel-frame { opacity: 1; }
+
+    .panel-frame a { display: block; line-height: 0; }
+
+    .panel-img {
+      display: block;
+      width: 34vw;
+      height: 52vh;
+      object-fit: cover;
+      cursor: pointer;
+      transition: transform 0.5s ease;
+      box-shadow: 0 10px 32px rgba(0,0,0,0.22);
+    }
+
+    .panel-img:hover { transform: scale(1.05); }
+    .panel-img.no-shadow { box-shadow: none; }
+
+    .panel-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      flex: 0 0 300px;
+    }
+
+    .panel-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #e84b74;
+      margin-bottom: 0.4rem;
+    }
+
+    .panel h1 { font-size: clamp(1.8rem, 3.8vw, 3.6rem); font-weight: 600; }
+    .panel p  { font-size: clamp(0.85rem, 1.2vw, 1.05rem); margin-top: 0.6rem; line-height: 1.8; opacity: 0.75; }
+
+    .panel-link {
+      display: inline-block;
+      margin-top: 1.4rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: inherit;
+      opacity: 0.6;
+      text-decoration: none;
+      border-bottom: 1px solid #e84b74;
+      padding-bottom: 2px;
+      transition: opacity 0.2s;
+    }
+    .panel-link:hover { opacity: 1; color: #e84b74; }
+
+    .p0 { background: #fdfcfb; }
+    .p1 { background: #faf7f4; }
+    .p2 { background: #f5f1ed; }
+    .p3 { background: #ede8e2; }
+    .p4 { background: #f5f1ed; }
+    .p5 { background: #fdfcfb; }
+
+    .title-panel {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding: 0 8vw calc(32vh + 2.5rem);
+      position: relative;
+    }
+
+    .title-panel .eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      opacity: 0.45;
+      margin-bottom: 1.2rem;
+    }
+
+    .title-panel h1 {
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      min-height: 1.1em;
+    }
+
+    .title-panel .subtitle {
+      margin-top: -1.5rem;
+      font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+      opacity: 0.55;
+      max-width: 420px;
+      line-height: 1.8;
+    }
+
+    .title-divider {
+      width: 40px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.3;
+      margin: 2rem 0;
+    }
+
+    .hint {
+      position: fixed;
+      bottom: 2rem;
+      right: 2.5rem;
+      color: rgba(44,40,37,0.55);
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      pointer-events: none;
+      transition: opacity 0.5s;
+    }
+
+    .hint-text {
+      writing-mode: vertical-rl;
+      animation: fadeSlideIn 1s ease forwards, bounce 1s ease-in-out infinite 1s;
+    }
+
+    .hint-line {
+      width: 1px;
+      height: 56px;
+      background: rgba(44,40,37,0.35);
+      animation: growLine 1s ease forwards, bounce 1s ease-in-out infinite 1s;
+      transform-origin: top;
+    }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes growLine {
+      from { transform: scaleY(0); }
+      to   { transform: scaleY(1); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: scaleY(1) translateY(0); }
+      40%       { transform: scaleY(1) translateY(10px); }
+      60%       { transform: scaleY(1) translateY(6px); }
+    }
+
+    .dots {
+      position: fixed;
+      top: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 0.6rem;
+    }
+    .dot {
+      width: 7px;
+      height: 7px;
+      background: rgba(44,40,37,0.2);
+      transform: rotate(45deg);
+      transition: background 0.3s, transform 0.3s;
+    }
+    .dot.active {
+      background: #e84b74;
+      transform: rotate(45deg) scale(1.4);
+    }
+
+    .section-links {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.4rem 1.5rem;
+      position: absolute;
+      bottom: 2.5rem;
+      left: 8vw;
+    }
+
+    .section-link {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: inherit;
+      opacity: 0.45;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: inherit;
+    }
+
+    .section-link:hover { opacity: 1; }
+
+    .section-link .sl-num {
+      font-size: 0.65rem;
+      color: #e84b74;
+      letter-spacing: 0.2em;
+    }
+
+    .hamburger { display: none; }
+    .mobile-menu { display: none; }
+
+    .about-link {
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #e84b74;
+      text-decoration: none;
+      border-bottom: 1px solid #e84b74;
+      padding-bottom: 2px;
+      transition: opacity 0.2s;
+    }
+    .about-link:hover { opacity: 0.7; }
+
+    /* ── About panel ── */
+    .about-panel {
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .about-img-placeholder {
+      width: 34vw;
+      height: 52vh;
+      background: rgba(44,40,37,0.08);
+      border-radius: 4px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about-img-placeholder::after {
+      content: 'Photo';
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.3;
+    }
+
+    .about-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      flex: 0 0 300px;
+    }
+
+    .about-content h1 { font-size: clamp(1.4rem, 3vw, 2.8rem); font-weight: 600; margin-bottom: 0.6rem; }
+    .about-content p  { font-size: clamp(0.85rem, 1.2vw, 1.05rem); line-height: 1.8; opacity: 0.75; }
+
+    .about-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-top: 1.2rem;
+      font-size: 0.85rem;
+      opacity: 0.6;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      body { overflow-y: auto; overflow-x: hidden; height: auto; }
+
+      .track {
+        position: relative;
+        flex-direction: column;
+        height: auto;
+        transform: none !important;
+      }
+
+      .panel {
+        width: 100vw;
+        height: auto;
+        min-height: 100svh;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 5rem 1.5rem 4rem;
+      }
+
+      .title-panel {
+        justify-content: center;
+        padding: 0 1.5rem 0;
+        min-height: 100svh;
+      }
+
+      .title-panel .eyebrow {
+        font-size: 0.65rem;
+      }
+
+      .section-links { display: none; }
+
+      .hamburger {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        position: fixed;
+        top: 1.5rem;
+        right: 1.5rem;
+        z-index: 500;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+      }
+
+      .hamburger span {
+        display: block;
+        width: 22px;
+        height: 1.5px;
+        background: #2c2825;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        transform-origin: center;
+      }
+
+      .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+      .hamburger.open span:nth-child(2) { opacity: 0; }
+      .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+      .mobile-menu {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: flex-end;
+        position: fixed;
+        inset: 0;
+        background: #faf7f4;
+        z-index: 400;
+        padding: 3rem 2rem 5rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .mobile-menu.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .mobile-menu a,
+      .mobile-menu button {
+        display: flex;
+        align-items: baseline;
+        gap: 1rem;
+        background: none;
+        border: none;
+        border-bottom: 1px solid rgba(44,40,37,0.1);
+        font-family: inherit;
+        text-align: left;
+        text-decoration: none;
+        cursor: pointer;
+        padding: 0.7rem 0;
+        width: 100%;
+        color: #2c2825;
+      }
+
+      .mobile-menu .mm-num {
+        font-size: 0.65rem;
+        letter-spacing: 0.2em;
+        color: #e84b74;
+      }
+
+      .mobile-menu .mm-label {
+        font-size: 1.4rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+      }
+
+      .panel-frame { width: 100%; }
+
+      .panel-img {
+        width: 100%;
+        height: 55vw;
+      }
+
+      .panel-content { flex: none; width: 100%; }
+
+      .panel h1 { font-size: clamp(1.6rem, 6vw, 2.4rem); }
+      .panel p  { font-size: 0.95rem; }
+      .title-panel h1 { font-size: clamp(4.3rem, 21vw, 6.9rem); white-space: normal; word-break: break-word; }
+
+      .dots { display: none; }
+      .hint { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="track" id="track">
+
+    <section class="panel p0 title-panel">
+<span class="eyebrow">Portfolio 2026</span>
+      <h1 id="titleHeading">Lori Tsou.</h1>
+      <nav class="section-links">
+        <a class="section-link" href="swag-design.html"><span class="sl-num">01</span> Swag Design</a>
+        <a class="section-link" href="motion-graphics.html"><span class="sl-num">02</span> Motion Graphics</a>
+        <a class="section-link" href="packaging-design.html"><span class="sl-num">03</span> Packaging Design</a>
+        <a class="section-link" href="event-signage.html"><span class="sl-num">04</span> Event Signage</a>
+        <a class="section-link" href="web-design.html"><span class="sl-num">05</span> Web Design</a>
+        <a class="section-link" href="illustration.html"><span class="sl-num">06</span> Illustration</a>
+        <button class="section-link" id="aboutLink"><span class="sl-num">—</span> About Me</button>
+      </nav>
+    </section>
+
+    <section class="panel p1">
+<div class="panel-frame">
+        <a href="swag-design.html"><img class="panel-img" src="shirt yellow.jpg" alt="Featured image" /></a>
+      </div>
+      <div class="panel-content">
+        <span class="panel-label">01</span>
+        <h1>Swag Design.</h1>
+        <p>Clothing, hats, cups and more.</p>
+        <a class="panel-link" href="swag-design.html">View more →</a>
+      </div>
+    </section>
+
+    <section class="panel p0">
+<div class="panel-frame">
+        <a href="motion-graphics.html"><img class="panel-img no-shadow" src="RL_hero_V2.gif" alt="Featured image" style="object-fit: contain;" /></a>
+      </div>
+      <div class="panel-content">
+        <span class="panel-label">02</span>
+        <h1>Motion Graphics.</h1>
+        <p>Web graphics and Videos.</p>
+        <a class="panel-link" href="motion-graphics.html">View more →</a>
+      </div>
+    </section>
+
+    <section class="panel p3">
+<div class="panel-frame">
+        <a href="packaging-design.html"><img class="panel-img" src="Tranont Vitamin C Supplements-13_Edited.jpg" alt="Featured image" /></a>
+      </div>
+      <div class="panel-content">
+        <span class="panel-label">03</span>
+        <h1>Packaging Design.</h1>
+        <p>Bottles, boxes, and more.</p>
+        <a class="panel-link" href="packaging-design.html">View more →</a>
+      </div>
+    </section>
+
+    <section class="panel p4">
+<div class="panel-frame">
+        <a href="event-signage.html"><img class="panel-img" src="srsign.jpg" alt="Featured image" /></a>
+      </div>
+      <div class="panel-content">
+        <span class="panel-label">04</span>
+        <h1>Event Signage.</h1>
+        <p>Signs and banners.</p>
+        <a class="panel-link" href="event-signage.html">View more →</a>
+      </div>
+    </section>
+
+    <section class="panel p5">
+<div class="panel-frame">
+        <a href="web-design.html"><img class="panel-img" src="Web_portfolio.jpg" alt="Featured image" style="object-fit: contain;" /></a>
+      </div>
+      <div class="panel-content">
+        <span class="panel-label">05</span>
+        <h1>Web Design.</h1>
+        <p>UI and UX.</p>
+        <a class="panel-link" href="web-design.html">View more →</a>
+      </div>
+    </section>
+
+    <section class="panel p2">
+<div class="panel-frame">
+        <a href="illustration.html"><img class="panel-img" src="Halberd_3.jpg" alt="Featured image" style="object-fit: contain; border-radius: 12px;" /></a>
+      </div>
+      <div class="panel-content">
+        <span class="panel-label">06</span>
+        <h1>Illustration.</h1>
+        <p>Digital and Watercolor.</p>
+        <a class="panel-link" href="illustration.html">View more →</a>
+      </div>
+    </section>
+
+    <section class="panel p0 about-panel">
+      <img class="panel-img" src="lori bio.jpg" alt="Lori Tsou" style="object-fit: cover; border-radius: 4px; cursor: default; pointer-events: none;" />
+      <div class="about-content">
+        <span class="panel-label">About</span>
+        <h1>Lori Tsou.</h1>
+        <p>I received a bachelor's degree in art and design from Utah Valley University and have worked as a graphic designer for over nine years. When not spending hours looking for the perfect font or lost in a canvas, I enjoy reading, playing video games, collecting random facts, and paragliding when the wind is right.</p>
+<div style="display:flex; gap:1rem; margin-top:1.4rem;">
+          <a href="https://www.linkedin.com/in/loritsou/" target="_blank" style="text-decoration:none; color:inherit; opacity:0.7; transition:opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452H17.1v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.763V9h3.2v1.561h.046c.447-.842 1.538-1.732 3.166-1.732 3.387 0 4.013 2.229 4.013 5.128v6.495zM5.337 7.433a1.857 1.857 0 1 1 0-3.714 1.857 1.857 0 0 1 0 3.714zm1.605 13.019H3.73V9h3.212v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.226.792 24 1.771 24h20.451C23.2 24 24 23.226 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/riitsart/" target="_blank" style="text-decoration:none; color:inherit; opacity:0.7; transition:opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Hamburger (mobile only) -->
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <!-- Mobile menu overlay -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="swag-design.html"><span class="mm-num">01</span><span class="mm-label">Swag Design</span></a>
+    <a href="motion-graphics.html"><span class="mm-num">02</span><span class="mm-label">Motion Graphics</span></a>
+    <a href="packaging-design.html"><span class="mm-num">03</span><span class="mm-label">Packaging Design</span></a>
+    <a href="event-signage.html"><span class="mm-num">04</span><span class="mm-label">Event Signage</span></a>
+    <a href="web-design.html"><span class="mm-num">05</span><span class="mm-label">Web Design</span></a>
+    <a href="illustration.html"><span class="mm-num">06</span><span class="mm-label">Illustration</span></a>
+    <button id="mobileAbout"><span class="mm-num">—</span><span class="mm-label">About Me</span></button>
+  </div>
+
+  <div class="hint" id="hint">
+    <span class="hint-text">Scroll down</span>
+    <div class="hint-line"></div>
+  </div>
+
+  <nav class="dots" id="dots"></nav>
+
+
+  <script>
+    // Cycle through titles with delete/type animation + colored segments
+    const titleHeading = document.getElementById('titleHeading');
+    const titles = [
+      [{ text: 'Lori', color: '#000000' }, { text: ' Tsou.', color: null }],
+      [{ text: 'Senior ', color: null }, { text: 'Designer.', color: '#e84b74' }],
+      [{ text: 'Artist.', color: null }],
+      [{ text: 'Creative.', color: '#e84b74' }],
+    ];
+    let titleIndex = 0;
+
+    function buildHTML(segs, charCount) {
+      let remaining = charCount, html = '';
+      for (const seg of segs) {
+        if (remaining <= 0) break;
+        const visible = seg.text.slice(0, remaining);
+        remaining -= visible.length;
+        html += seg.color ? `<span style="color:${seg.color}">${visible}</span>` : visible;
+      }
+      return html;
+    }
+
+    const typeText = () => {
+      const segs = titles[titleIndex];
+      const full = segs.map(s => s.text).join('');
+      let i = 0;
+      const type = () => {
+        if (i < full.length) {
+          titleHeading.innerHTML = buildHTML(segs, ++i);
+          setTimeout(type, 25);
+        } else {
+          setTimeout(doErase, 2000);
+        }
+      };
+      type();
+    };
+
+    const doErase = () => {
+      const segs = titles[titleIndex];
+      const full = segs.map(s => s.text).join('');
+      let len = full.length;
+      const eraseChar = () => {
+        if (len > 0) {
+          titleHeading.innerHTML = buildHTML(segs, --len);
+          setTimeout(eraseChar, 20);
+        } else {
+          titleIndex = (titleIndex + 1) % titles.length;
+          typeText();
+        }
+      };
+      eraseChar();
+    };
+
+    setTimeout(doErase, 1500);
+
+    document.getElementById('aboutLink').addEventListener('click', () => {
+      target = maxX();
+      if (!raf) raf = requestAnimationFrame(animate);
+    });
+
+    const track  = document.getElementById('track');
+    const hint   = document.getElementById('hint');
+    const dots   = document.getElementById('dots');
+    const panels = document.querySelectorAll('.panel');
+    const COUNT  = panels.length;
+    const mobile = () => window.innerWidth <= 768;
+
+    panels.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.style.cursor = 'pointer';
+      d.addEventListener('click', () => {
+        target = i * window.innerWidth;
+        if (!raf) raf = requestAnimationFrame(animate);
+      });
+      dots.appendChild(d);
+    });
+
+    const dotEls = dots.querySelectorAll('.dot');
+    let current = 0, target = 0, raf = null;
+
+panels[0].classList.add('in-view');
+
+    const maxX = () => (COUNT - 1) * window.innerWidth;
+
+    // Desktop horizontal scroll logic
+    function animate() {
+      current += (target - current) * 0.1;
+      if (Math.abs(target - current) < 0.5) { current = target; raf = null; }
+      else raf = requestAnimationFrame(animate);
+
+      track.style.transform = `translateX(-${current}px)`;
+
+      const active = Math.round((current / maxX()) * (COUNT - 1));
+      dotEls.forEach((d, i) => d.classList.toggle('active', i === active));
+
+      const hintText = document.querySelector('.hint-text');
+      if (hintText) hintText.textContent = active === COUNT - 1 ? 'Scroll up' : 'Scroll down';
+
+      panels.forEach((panel, i) => {
+        if (Math.abs(current - i * window.innerWidth) < window.innerWidth * 0.6)
+          panel.classList.add('in-view');
+      });
+    }
+
+    window.addEventListener('wheel', (e) => {
+      if (mobile()) return;
+      e.preventDefault();
+      hint.style.opacity = '0';
+      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      target = Math.max(0, Math.min(maxX(), target + delta));
+      if (!raf) raf = requestAnimationFrame(animate);
+    }, { passive: false });
+
+    // Mobile: fade in panels on scroll using IntersectionObserver
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add('in-view');
+        });
+      }, { threshold: 0.3 });
+      panels.forEach(p => observer.observe(p));
+    }
+
+    // Hamburger menu
+    const hamburger  = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+
+    document.getElementById('mobileAbout')?.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.querySelectorAll('.panel')[7]?.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    window.addEventListener('resize', () => {
+      if (mobile()) return;
+      target  = Math.min(target, maxX());
+      current = Math.min(current, maxX());
+      track.style.transform = `translateX(-${current}px)`;
+    });
+  </script>
+</body>
+</html>
