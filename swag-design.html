@@ -47,6 +47,9 @@
       text-transform: uppercase;
       opacity: 0.4;
       transition: opacity 0.3s ease;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
     }
     .site-name.hidden { opacity: 0; }
 
@@ -232,7 +235,6 @@
     /* ── Mobile ── */
     @media (max-width: 768px) {
       nav { padding: 1.2rem 1.5rem; }
-      .site-name { display: none; }
 
       .page-layout {
         grid-template-columns: 1fr;
@@ -475,7 +477,7 @@
 
 /* ── Hamburger ── */
 .hamburger {
-  display: none;
+  display: flex;
   position: fixed;
   top: 1.5rem;
   right: 1.5rem;

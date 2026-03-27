@@ -48,6 +48,9 @@
       text-transform: uppercase;
       opacity: 0.4;
       transition: opacity 0.3s ease;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
     }
     .site-name.hidden { opacity: 0; }
 
@@ -237,7 +240,6 @@
     /* ── Mobile ── */
     @media (max-width: 768px) {
       nav { padding: 1.2rem 1.5rem; }
-      .site-name { display: none; }
       .hero { padding: 5rem 1.5rem 2rem; }
       .featured-video { padding: 1.5rem 0; }
       .featured-video .video-wrapper { width: 100%; }
@@ -254,7 +256,7 @@
 
 /* ── Hamburger ── */
 .hamburger {
-  display: none;
+  display: flex;
   position: fixed;
   top: 1.5rem;
   right: 1.5rem;
