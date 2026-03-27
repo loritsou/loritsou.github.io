@@ -231,6 +231,7 @@
     /* ── Mobile ── */
     @media (max-width: 768px) {
       nav { padding: 1.2rem 1.5rem; }
+      .site-name { display: none; }
 
       .page-layout {
         grid-template-columns: 1fr;
@@ -267,13 +268,16 @@
 /* ── Hamburger ── */
 .hamburger {
   display: none;
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
   flex-direction: column;
   gap: 5px;
   background: none;
   border: none;
   cursor: pointer;
   padding: 4px;
-  z-index: 101;
+  z-index: 301;
 }
 .hamburger span {
   display: block;
@@ -282,8 +286,16 @@
   background: var(--dark);
   transition: all 0.3s ease;
 }
-
-/* ── Menu Overlay ── */
+.hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
 .menu-overlay {
   position: fixed;
   inset: 0;
@@ -301,20 +313,6 @@
   opacity: 1;
   pointer-events: auto;
 }
-.menu-close {
-  position: absolute;
-  top: 2rem;
-  right: 2rem;
-  background: none;
-  border: none;
-  font-size: 0.75rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  cursor: pointer;
-  opacity: 0.5;
-  transition: opacity 0.2s;
-}
-.menu-close:hover { opacity: 1; }
 .menu-links {
   display: flex;
   flex-direction: column;
@@ -339,7 +337,6 @@
   font-weight: 400;
   opacity: 0.5;
 }
-
 @media (max-width: 768px) {
   .hamburger { display: flex; }
 }
@@ -347,16 +344,16 @@
 </head>
 <body>
 
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+
   <nav>
     <a class="back-link" href="index.html">← Portfolio</a>
     <span class="site-name">Lori Tsou</span>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
   </nav>
 
   <div class="menu-overlay" id="menuOverlay">
-    <button class="menu-close" id="menuClose">Close ✕</button>
     <nav class="menu-links">
       <a href="swag-design.html"><span>01</span> Swag Design</a>
       <a href="motion-graphics.html"><span>02</span> Motion Graphics</a>
@@ -464,10 +461,16 @@
     // Hamburger menu
     const hamburger = document.getElementById('hamburger');
     const menuOverlay = document.getElementById('menuOverlay');
-    const menuClose = document.getElementById('menuClose');
-    hamburger.addEventListener('click', () => menuOverlay.classList.add('open'));
-    menuClose.addEventListener('click', () => menuOverlay.classList.remove('open'));
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') menuOverlay.classList.remove('open'); });
+    hamburger.addEventListener('click', () => {
+      const isOpen = menuOverlay.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        menuOverlay.classList.remove('open');
+        hamburger.classList.remove('open');
+      }
+    });
   </script>
 </body>
 </html>
