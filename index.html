@@ -180,34 +180,15 @@
       60%       { transform: scaleY(1) translateY(6px); }
     }
 
-    .dots {
-      position: fixed;
-      top: 1.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 0.6rem;
-    }
-    .dot {
-      width: 7px;
-      height: 7px;
-      background: rgba(44,40,37,0.2);
-      transform: rotate(45deg);
-      transition: background 0.3s, transform 0.3s;
-    }
-    .dot.active {
-      background: #e84b74;
-      transform: rotate(45deg) scale(1.4);
-    }
-
     .section-links {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
       gap: 0.4rem 1.5rem;
-      position: absolute;
+      position: fixed;
       bottom: 2.5rem;
       left: 8vw;
+      z-index: 50;
     }
 
     .section-link {
@@ -340,7 +321,7 @@
       .panel p  { font-size: 0.95rem; }
       .title-panel h1 { font-size: clamp(4.3rem, 21vw, 6.9rem); white-space: normal; word-break: break-word; }
 
-      .dots { display: none; }
+      .section-links { display: none; }
       .hint { display: none; }
     }
 
@@ -443,15 +424,6 @@
     <section class="panel p0 title-panel">
 <span class="eyebrow">Portfolio 2026</span>
       <h1 id="titleHeading">Lori Tsou.</h1>
-      <nav class="section-links">
-        <a class="section-link" href="swag-design.html"><span class="sl-num">01</span> Swag Design</a>
-        <a class="section-link" href="motion-graphics.html"><span class="sl-num">02</span> Motion Graphics</a>
-        <a class="section-link" href="packaging-design.html"><span class="sl-num">03</span> Packaging Design</a>
-        <a class="section-link" href="event-signage.html"><span class="sl-num">04</span> Event Signage</a>
-        <a class="section-link" href="web-design.html"><span class="sl-num">05</span> Web Design</a>
-        <a class="section-link" href="illustration.html"><span class="sl-num">06</span> Illustration</a>
-        <button class="section-link" id="aboutLink"><span class="sl-num">—</span> About Me</button>
-      </nav>
     </section>
 
     <section class="panel p1">
@@ -550,7 +522,15 @@
     <div class="hint-line"></div>
   </div>
 
-  <nav class="dots" id="dots"></nav>
+  <nav class="section-links">
+    <a class="section-link" href="swag-design.html"><span class="sl-num">01</span> Swag Design</a>
+    <a class="section-link" href="motion-graphics.html"><span class="sl-num">02</span> Motion Graphics</a>
+    <a class="section-link" href="packaging-design.html"><span class="sl-num">03</span> Packaging Design</a>
+    <a class="section-link" href="event-signage.html"><span class="sl-num">04</span> Event Signage</a>
+    <a class="section-link" href="web-design.html"><span class="sl-num">05</span> Web Design</a>
+    <a class="section-link" href="illustration.html"><span class="sl-num">06</span> Illustration</a>
+    <button class="section-link" id="aboutLink"><span class="sl-num">—</span> About Me</button>
+  </nav>
 
 
   <script>
@@ -615,23 +595,10 @@
 
     const track  = document.getElementById('track');
     const hint   = document.getElementById('hint');
-    const dots   = document.getElementById('dots');
     const panels = document.querySelectorAll('.panel');
     const COUNT  = panels.length;
     const mobile = () => window.innerWidth <= 768;
 
-    panels.forEach((_, i) => {
-      const d = document.createElement('div');
-      d.className = 'dot' + (i === 0 ? ' active' : '');
-      d.style.cursor = 'pointer';
-      d.addEventListener('click', () => {
-        target = i * window.innerWidth;
-        if (!raf) raf = requestAnimationFrame(animate);
-      });
-      dots.appendChild(d);
-    });
-
-    const dotEls = dots.querySelectorAll('.dot');
     let current = 0, target = 0, raf = null;
 
 panels[0].classList.add('in-view');
@@ -647,7 +614,6 @@ panels[0].classList.add('in-view');
       track.style.transform = `translateX(-${current}px)`;
 
       const active = Math.round((current / maxX()) * (COUNT - 1));
-      dotEls.forEach((d, i) => d.classList.toggle('active', i === active));
 
       const hintText = document.querySelector('.hint-text');
       if (hintText) hintText.textContent = active === COUNT - 1 ? 'Scroll up' : 'Scroll down';
