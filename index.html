@@ -210,6 +210,7 @@
     }
 
     .section-link:hover { opacity: 1; }
+    .section-link.active { opacity: 1; color: #e84b74; }
 
     .section-link .sl-num {
       font-size: 0.65rem;
@@ -598,6 +599,13 @@
     const panels = document.querySelectorAll('.panel');
     const COUNT  = panels.length;
     const mobile = () => window.innerWidth <= 768;
+    const sectionLinks = document.querySelectorAll('.section-link');
+
+    function updateActiveLink(panelIndex) {
+      // panels: 0=title, 1=swag, 2=motion, 3=packaging, 4=event, 5=web, 6=illustration, 7=about
+      // links:  0=swag,  1=motion, 2=packaging, 3=event, 4=web, 5=illustration, 6=about
+      sectionLinks.forEach((link, i) => link.classList.toggle('active', i === panelIndex - 1));
+    }
 
     let current = 0, target = 0, raf = null;
 
@@ -614,6 +622,7 @@ panels[0].classList.add('in-view');
       track.style.transform = `translateX(-${current}px)`;
 
       const active = Math.round((current / maxX()) * (COUNT - 1));
+      updateActiveLink(active);
 
       const hintText = document.querySelector('.hint-text');
       if (hintText) hintText.textContent = active === COUNT - 1 ? 'Scroll up' : 'Scroll down';
@@ -637,9 +646,13 @@ panels[0].classList.add('in-view');
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-          if (entry.isIntersecting) entry.target.classList.add('in-view');
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            const idx = Array.from(panels).indexOf(entry.target);
+            updateActiveLink(idx);
+          }
         });
-      }, { threshold: 0.3 });
+      }, { threshold: 0.5 });
       panels.forEach(p => observer.observe(p));
     }
 
