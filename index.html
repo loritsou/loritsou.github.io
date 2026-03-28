@@ -562,9 +562,9 @@
       const type = () => {
         if (i < full.length) {
           titleHeading.innerHTML = buildHTML(segs, ++i);
-          setTimeout(type, 25);
+          setTimeout(type, 18);
         } else {
-          setTimeout(doErase, 2000);
+          setTimeout(doErase, 1400);
         }
       };
       type();
@@ -577,7 +577,7 @@
       const eraseChar = () => {
         if (len > 0) {
           titleHeading.innerHTML = buildHTML(segs, --len);
-          setTimeout(eraseChar, 20);
+          setTimeout(eraseChar, 14);
         } else {
           titleIndex = (titleIndex + 1) % titles.length;
           typeText();
