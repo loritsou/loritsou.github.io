@@ -606,11 +606,6 @@
 
     setTimeout(doErase, 1500);
 
-    document.getElementById('aboutLink').addEventListener('click', () => {
-      target = maxX();
-      if (!raf) raf = requestAnimationFrame(animate);
-    });
-
     const track  = document.getElementById('track');
     const hint   = document.getElementById('hint');
     const panels = document.querySelectorAll('.panel');
@@ -619,20 +614,17 @@
     const sectionLinks = document.querySelectorAll('.section-link');
 
     function updateActiveLink(panelIndex) {
-      // panels: 0=title, 1=swag, 2=motion, 3=packaging, 4=event, 5=web, 6=illustration, 7=about
-      // links:  0=swag,  1=motion, 2=packaging, 3=event, 4=web, 5=illustration, 6=about
       sectionLinks.forEach((link, i) => link.classList.toggle('active', i === panelIndex - 1));
     }
 
-    let current = 0, target = 0, raf = null;
-
     panels[0].classList.add('in-view');
+
+    let current = 0, target = 0, raf = null;
 
     const maxX = () => (COUNT - 1) * window.innerWidth;
 
-    // Desktop horizontal scroll logic
     function animate() {
-      current += (target - current) * 0.1;
+      current += (target - current) * 0.2;
       if (Math.abs(target - current) < 0.5) { current = target; raf = null; }
       else raf = requestAnimationFrame(animate);
 
@@ -658,6 +650,18 @@
       target = Math.max(0, Math.min(maxX(), target + delta));
       if (!raf) raf = requestAnimationFrame(animate);
     }, { passive: false });
+
+    document.getElementById('aboutLink').addEventListener('click', () => {
+      target = maxX();
+      if (!raf) raf = requestAnimationFrame(animate);
+    });
+
+    window.addEventListener('resize', () => {
+      if (mobile()) return;
+      target  = Math.min(target, maxX());
+      current = Math.min(current, maxX());
+      track.style.transform = `translateX(-${current}px)`;
+    });
 
     // Mobile: fade in panels on scroll using IntersectionObserver
     if ('IntersectionObserver' in window) {
@@ -685,13 +689,6 @@
         menuOverlay.classList.remove('open');
         hamburger.classList.remove('open');
       }
-    });
-
-    window.addEventListener('resize', () => {
-      if (mobile()) return;
-      target  = Math.min(target, maxX());
-      current = Math.min(current, maxX());
-      track.style.transform = `translateX(-${current}px)`;
     });
   </script>
 </body>
