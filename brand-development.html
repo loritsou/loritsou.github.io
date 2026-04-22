@@ -608,17 +608,6 @@
       counter.textContent = pad(idx + 1) + ' / ' + pad(TOTAL);
     }, 120);
 
-    let snapTimer = null;
-    let isSnapping = false;
-
-    function snapToSection(idx) {
-      isSnapping = true;
-      const layoutH  = pageLayout.offsetHeight - window.innerHeight;
-      const target   = pageLayout.offsetTop + (idx / TOTAL) * layoutH;
-      window.scrollTo({ top: target, behavior: 'smooth' });
-      setTimeout(() => { isSnapping = false; }, 600);
-    }
-
     window.addEventListener('scroll', () => {
       const scrolled   = window.scrollY;
       const maxScroll  = document.body.scrollHeight - window.innerHeight;
@@ -638,11 +627,6 @@
       hint.style.opacity = scrolled > maxScroll - 40 ? '0' : '';
       siteName.classList.toggle('hidden', scrolled > 20);
 
-      // Snap to section after scroll settles
-      if (!isSnapping) {
-        clearTimeout(snapTimer);
-        snapTimer = setTimeout(() => snapToSection(idx), 500);
-      }
     });
 
     // Lightbox
