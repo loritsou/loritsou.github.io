@@ -641,7 +641,7 @@
       // Snap to section after scroll settles
       if (!isSnapping) {
         clearTimeout(snapTimer);
-        snapTimer = setTimeout(() => snapToSection(idx), 180);
+        snapTimer = setTimeout(() => snapToSection(idx), 500);
       }
     });
 
