@@ -591,7 +591,8 @@
 
     function pad(n) { return String(n).padStart(2, '0'); }
 
-    // Activate correct set on page load (handles scroll position restore on refresh)
+    let scrollReady = false;
+
     function getIdx() {
       const layoutTop = -pageLayout.getBoundingClientRect().top;
       const layoutH   = pageLayout.offsetHeight - window.innerHeight;
@@ -599,16 +600,22 @@
       return Math.min(Math.floor(progress * TOTAL), TOTAL - 1);
     }
 
-    setTimeout(() => {
-      const idx = getIdx();
+    function applyIdx(idx) {
       sets.forEach((s, i)     => s.classList.toggle('active', i === idx));
       bdTitles.forEach((t, i) => t.classList.toggle('active', i === idx));
       bdDescs.forEach((d, i)  => d.classList.toggle('active', i === idx));
       bdLinks.forEach((l, i)  => l.classList.toggle('active', i === idx));
       counter.textContent = pad(idx + 1) + ' / ' + pad(TOTAL);
-    }, 120);
+    }
+
+    // Set correct section on load, then enable scroll handler
+    setTimeout(() => {
+      applyIdx(getIdx());
+      scrollReady = true;
+    }, 300);
 
     window.addEventListener('scroll', () => {
+      if (!scrollReady) return;
       const scrolled   = window.scrollY;
       const maxScroll  = document.body.scrollHeight - window.innerHeight;
       const layoutTop  = -pageLayout.getBoundingClientRect().top;
@@ -616,11 +623,7 @@
       const progress   = Math.max(0, Math.min(1, layoutTop / layoutH));
       const idx        = Math.min(Math.floor(progress * TOTAL), TOTAL - 1);
 
-      sets.forEach((s, i)     => s.classList.toggle('active', i === idx));
-      bdTitles.forEach((t, i) => t.classList.toggle('active', i === idx));
-      bdDescs.forEach((d, i)  => d.classList.toggle('active', i === idx));
-      bdLinks.forEach((l, i)  => l.classList.toggle('active', i === idx));
-      counter.textContent = pad(idx + 1) + ' / ' + pad(TOTAL);
+      applyIdx(idx);
 
       const hintText = document.querySelector('.hint-text');
       if (hintText) hintText.textContent = scrolled > maxScroll - 40 ? 'Scroll up' : 'Scroll down';
