@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brand Development — Lori Tsou</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root { --pink: #e84b74; --dark: #2c2825; --bg: #faf7f4; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      color: var(--dark);
+      background: var(--bg);
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 4rem;
+      z-index: 100;
+      mix-blend-mode: multiply;
+    }
+
+    .back-link {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--dark);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: gap 0.2s;
+    }
+    .back-link:hover { gap: 0.8rem; }
+
+    .site-name {
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      transition: opacity 0.3s ease;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .site-name.hidden { opacity: 0; }
+    .site-name { text-decoration: none; color: var(--dark); }
+
+    /* ── Hero layout ── */
+    .page-layout {
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+      height: 280vh;
+    }
+
+    .sticky-left {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 6rem 2rem 4rem 4rem;
+    }
+
+    .hero-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.2s forwards;
+    }
+
+    .sticky-left h1 {
+      font-size: clamp(2.8rem, 4.5vw, 5rem);
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.4s forwards;
+    }
+    .sticky-left h1 span { color: var(--pink); }
+
+    .bd-titles {
+      position: relative;
+      height: 11rem;
+      margin-top: 2rem;
+    }
+
+    .bd-title {
+      position: absolute;
+      top: 0; left: 0;
+      font-size: clamp(2.8rem, 4.5vw, 5rem);
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: none;
+      pointer-events: none;
+    }
+    .bd-title.active { opacity: 1; transform: translateY(0); pointer-events: auto; transition: opacity 0.5s ease, transform 0.5s ease; }
+    .bd-title span { color: var(--pink); }
+
+    .bd-descs {
+      position: relative;
+      height: 18rem;
+      margin-top: 1.5rem;
+    }
+
+    .bd-desc {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      font-size: 0.92rem;
+      line-height: 1.75;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: none;
+      pointer-events: none;
+    }
+    .bd-desc.active { opacity: 0.75; transform: translateY(0); pointer-events: auto; transition: opacity 0.5s ease, transform 0.5s ease; }
+
+    .set-counter {
+      margin-top: 2rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.8s forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .bd-set-label { display: none; }
+
+    /* ── Sticky right with 2×2 grid ── */
+    .sticky-right {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 7rem 4rem 4rem 2rem;
+    }
+
+    .image-grid-wrap {
+      position: relative;
+      width: 100%;
+      height: 72vh;
+    }
+
+    .image-set {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 0.75rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: none;
+    }
+
+    .image-set.active { opacity: 1; pointer-events: auto; transition: opacity 0.6s ease; }
+
+    .grid-item {
+      border-radius: 6px;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .image-set.active .grid-item              { opacity: 1; transform: translateY(0); }
+    .image-set.active .grid-item:nth-child(1) { transition-delay: 0.05s; }
+    .image-set.active .grid-item:nth-child(2) { transition-delay: 0.15s; }
+    .image-set.active .grid-item:nth-child(3) { transition-delay: 0.25s; }
+    .image-set.active .grid-item:nth-child(4) { transition-delay: 0.35s; }
+
+    .grid-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .bd-link {
+      display: inline-block;
+      margin-top: 1.2rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--dark);
+      opacity: 0;
+      text-decoration: none;
+      transition: opacity 0.2s, color 0.2s;
+      pointer-events: none;
+    }
+    .bd-link.active { opacity: 0.6; pointer-events: auto; }
+    .bd-link.active:hover { opacity: 1; color: var(--pink); }
+
+    /* ── Lightbox ── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(20,16,14,0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .lightbox.open { opacity: 1; pointer-events: auto; }
+    .lightbox img {
+      max-width: 88vw;
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 4px;
+      transform: scale(0.96);
+      transition: transform 0.3s ease;
+    }
+    .lightbox.open img { transform: scale(1); }
+    .lightbox-close {
+      position: absolute;
+      top: 2rem; right: 2.5rem;
+      color: #fff;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.6;
+      cursor: pointer;
+      background: none;
+      border: none;
+      transition: opacity 0.2s;
+    }
+    .lightbox-close:hover { opacity: 1; }
+
+    .grid-item { cursor: pointer; }
+
+    /* ── Scroll hint ── */
+    .hint {
+      position: fixed;
+      bottom: 2rem;
+      right: 2.5rem;
+      color: rgba(44,40,37,0.55);
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      z-index: 50;
+    }
+
+    .hint-text {
+      writing-mode: vertical-rl;
+      animation: fadeSlideIn 1s ease forwards, bounce 1s ease-in-out infinite 1s;
+    }
+
+    .hint-line {
+      width: 1px;
+      height: 56px;
+      background: rgba(44,40,37,0.35);
+      animation: growLine 1s ease forwards, bounce 1s ease-in-out infinite 1s;
+      transform-origin: top;
+    }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes growLine {
+      from { transform: scaleY(0); }
+      to   { transform: scaleY(1); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      40%       { transform: translateY(10px); }
+      60%       { transform: translateY(6px); }
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      nav { padding: 1.2rem 1.5rem; }
+
+      .page-layout {
+        display: block;
+        height: auto;
+      }
+
+      .sticky-left {
+        position: relative;
+        height: auto;
+        padding: 5rem 1.5rem 2rem;
+      }
+
+      .sticky-left h1 { font-size: clamp(2.2rem, 10vw, 3.5rem); }
+
+      .bd-set-label {
+        display: block;
+        padding: 2.5rem 0 1.5rem;
+      }
+      .bd-set-label h2 {
+        font-size: clamp(2.2rem, 10vw, 3.5rem);
+        font-weight: 700;
+        line-height: 0.95;
+        letter-spacing: -0.03em;
+        margin-bottom: 1rem;
+      }
+      .bd-set-label h2 span { color: var(--pink); }
+      .bd-set-label p {
+        font-size: 0.9rem;
+        line-height: 1.7;
+        opacity: 0.75;
+      }
+
+      .bd-titles, .bd-descs { position: relative; height: auto; }
+
+      .bd-title {
+        position: relative; opacity: 1; transform: none; pointer-events: auto;
+        font-size: clamp(2.2rem, 10vw, 3.5rem);
+      }
+      .bd-title:not(.active) { display: none; }
+
+      .bd-desc {
+        position: relative; opacity: 0.75; transform: none; pointer-events: auto;
+        font-size: 0.9rem; max-width: 100%; margin-top: 1rem;
+      }
+      .bd-desc:not(.active) { display: none; }
+
+
+      .sticky-right {
+        position: relative;
+        height: auto;
+        padding: 0 1.5rem 3rem;
+      }
+
+      .image-grid-wrap {
+        position: relative;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .image-set {
+        position: relative;
+        inset: auto;
+        opacity: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .grid-item {
+        height: 30vw;
+        opacity: 1;
+        transform: none;
+      }
+
+      .hint { display: none; }
+      .set-counter { display: none; }
+    }
+
+/* ── Hamburger ── */
+.hamburger {
+  display: flex;
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 301;
+}
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--dark);
+  transition: all 0.3s ease;
+}
+.hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: #faf7f4;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.menu-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.menu-links {
+  padding-right: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2rem;
+}
+.menu-links a {
+  font-size: clamp(1.4rem, 6vw, 2rem);
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--dark);
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  transition: color 0.2s;
+}
+.menu-links a:hover { color: var(--pink); }
+.menu-links a span {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  font-weight: 400;
+  color: var(--pink);
+}
+@media (max-width: 768px) {
+  .hamburger { display: flex; }
+}
+  </style>
+</head>
+<body>
+
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <nav>
+    <a class="back-link" href="index.html">← Portfolio</a>
+    <a class="site-name" href="index.html">Lori Tsou</a>
+  </nav>
+
+  <div class="menu-overlay" id="menuOverlay">
+    <nav class="menu-links">
+      <a href="swag-design.html"><span>01</span> Swag Design</a>
+      <a href="motion-graphics.html"><span>02</span> Motion Graphics</a>
+      <a href="packaging-design.html"><span>03</span> Packaging Design</a>
+      <a href="event-signage.html"><span>04</span> Event Design</a>
+      <a href="web-design.html"><span>05</span> Web Design</a>
+      <a href="brand-development.html"><span>06</span> Brand Development</a>
+      <a href="illustration.html"><span>07</span> Illustration</a>
+    </nav>
+  </div>
+
+  <div class="page-layout" id="pageLayout">
+
+    <div class="sticky-left">
+      <span class="hero-label">06</span>
+
+      <div class="bd-titles">
+        <h2 class="bd-title">Brand<br><span>Development.</span></h2>
+        <h2 class="bd-title">The<br><span>Pivot.</span></h2>
+        <h2 class="bd-title">Added<br><span>Features.</span></h2>
+        <h2 class="bd-title">Addition of<br><span>Another Brand.</span></h2>
+      </div>
+
+      <div class="bd-descs">
+        <p class="bd-desc">While SalesRabbit's original high-contrast aesthetic was effective for early momentum, moving upmarket demanded a more honed-in approach. Pivoting to an enterprise focus meant evolving the brand from a scrappy, bold identity into a mature visual system that clearly and quickly showed off the key features of the product.</p>
+        <p class="bd-desc">Working with an agency, we updated the brand palette to allow for more expressive and informative visual assets. This shift enabled us to transform complex product features into clear, high-impact graphics, ensuring our features were easily understood by an enterprise audience. Key decision makers often worry about migration and the possibility of software fatigue. I wanted to make sure our graphics showed just how easy and simple the product is.</p>
+        <p class="bd-desc">Growth brought the challenge of product differentiation within a unified brand. For Amplify Gamification, I integrated employee-focused imagery and energetic patterns to highlight the 'fun' side of gamification within our brand framework. For Pitch Solar, I focused on the product's easy reporting feature. Using a blueprint-inspired illustration style, I created a visual language that felt both professional and highly functional, making the software's benefits instantly clear.</p>
+        <p class="bd-desc">Following SalesRabbit's acquisition of Rooflink, the strategic goal was to position the combined offering as a powerhouse for the enterprise and small business roofing market. I was tasked with creating a brand system that showcased Rooflink's robust capabilities while highlighting the integrated value of SalesRabbit's canvassing tools. To modernize the visual identity, I refreshed the website and marketing collateral with a focus on clean product UI. I also expanded the palette to include energetic yellows and oranges—providing a necessary 'pop' that differentiated the brand from a sea of roofing blues. For internal materials, I created graphics to showcase both brands and to unify the two companies.</p>
+      </div>
+
+      <a class="bd-link" href="Style_DataGrid01.pdf" target="_blank">View Old Brand Guide →</a>
+      <a class="bd-link" href="SalesRabbitBrandGuide2024.pdf" target="_blank">View Brand Guide →</a>
+      <a class="bd-link"></a>
+      <a class="bd-link"></a>
+
+      <p class="set-counter" id="setCounter">01 / 04</p>
+    </div>
+
+    <div class="sticky-right">
+      <div class="image-grid-wrap" id="imageGridWrap">
+
+        <!-- Set 1 -->
+        <div class="image-set">
+          <div class="grid-item"><img src="Web_portfoliobrand1_Brand1.png" alt="Brand Development" /></div>
+          <div class="grid-item"><img src="Web_portfoliobrand1_Brand1 copy.png" alt="Brand Development" /></div>
+          <div class="grid-item"><img src="Web_portfoliobrand1_Brand1 copy 2.png" alt="Brand Development" /></div>
+          <div class="grid-item"><img src="Web_portfoliobrand1_Brand1 copy 3.png" alt="Brand Development" /></div>
+        </div>
+
+        <!-- Mobile label for set 2 -->
+        <div class="bd-set-label">
+          <h2>The<br><span>Pivot.</span></h2>
+          <p>Working with an agency, we updated the brand palette to allow for more expressive and informative visual assets. This shift enabled us to transform complex product features into clear, high-impact graphics, ensuring our features were easily understood by an enterprise audience. Key decision makers often worry about migration and the possibility of software fatigue. I wanted to make sure our graphics showed just how easy and simple the product is.</p>
+        </div>
+
+        <!-- Set 2 -->
+        <div class="image-set">
+          <div class="grid-item"><img src="brand_Brand4.png" alt="Brand Development" /></div>
+          <div class="grid-item"><img src="brand_Brand5.png" alt="Brand Development" /></div>
+          <div class="grid-item"><img src="brand_Brand6.png" alt="Brand Development" /></div>
+          <div class="grid-item"><img src="brand_Brand7.png" alt="Brand Development" /></div>
+        </div>
+
+        <!-- Mobile label for set 3 -->
+        <div class="bd-set-label">
+          <h2>Added<br><span>Features.</span></h2>
+          <p>Growth brought the challenge of product differentiation within a unified brand. For Amplify Gamification, I integrated employee-focused imagery and energetic patterns to highlight the 'fun' side of gamification within our brand framework. For Pitch Solar, I focused on the product's easy reporting feature. Using a blueprint-inspired illustration style, I created a visual language that felt both professional and highly functional, making the software's benefits instantly clear.</p>
+        </div>
+
+        <!-- Set 3 -->
+        <div class="image-set">
+          <div class="grid-item"><img src="reduce_rep_churn-1.png" alt="Brand Development" /></div>
+          <div class="grid-item"><img src="brand3_Brand9.png" alt="Brand Development" /></div>
+          <div class="grid-item"><img src="brand3_Brand10.png" alt="Brand Development" /></div>
+          <div class="grid-item"><img src="brand3_Brand11.png" alt="Brand Development" /></div>
+        </div>
+
+        <!-- Mobile label for set 4 -->
+        <div class="bd-set-label">
+          <h2>Addition of<br><span>Another Brand.</span></h2>
+          <p>Following SalesRabbit's acquisition of Rooflink, the strategic goal was to position the combined offering as a powerhouse for the enterprise and small business roofing market. I was tasked with creating a brand system that showcased Rooflink's robust capabilities while highlighting the integrated value of SalesRabbit's canvassing tools. To modernize the visual identity, I refreshed the website and marketing collateral with a focus on clean product UI. I also expanded the palette to include energetic yellows and oranges—providing a necessary 'pop' that differentiated the brand from a sea of roofing blues. For internal materials, I created graphics to showcase both brands and to unify the two companies.</p>
+        </div>
+
+        <!-- Set 4 -->
+        <div class="image-set">
+          <div class="grid-item"><img src="Web_portfoliobrand4_Brand12.png" alt="Brand Development" /></div>
+          <div class="grid-item"><img src="Web_portfoliobrand4_Brand13.png" alt="Brand Development" /></div>
+          <div class="grid-item"><img src="Web_portfoliobrand4_Brand14.png" alt="Brand Development" /></div>
+          <div class="grid-item"><img src="Web_portfoliobrand4_Brand16.png" alt="Brand Development" /></div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose">Close ✕</button>
+    <img id="lightboxImg" src="" alt="" />
+  </div>
+
+  <div class="hint" id="hint">
+    <span class="hint-text">Scroll down</span>
+    <div class="hint-line"></div>
+  </div>
+
+  <script>
+    const hint       = document.getElementById('hint');
+    const siteName   = document.querySelector('.site-name');
+    const pageLayout = document.getElementById('pageLayout');
+    const sets       = document.querySelectorAll('.image-set');
+    const bdTitles   = document.querySelectorAll('.bd-title');
+    const bdDescs    = document.querySelectorAll('.bd-desc');
+    const bdLinks    = document.querySelectorAll('.bd-link');
+    const counter    = document.getElementById('setCounter');
+    const TOTAL      = sets.length;
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    // Activate correct set on page load (handles scroll position restore on refresh)
+    function getIdx() {
+      const layoutTop = -pageLayout.getBoundingClientRect().top;
+      const layoutH   = pageLayout.offsetHeight - window.innerHeight;
+      const progress  = Math.max(0, Math.min(1, layoutTop / layoutH));
+      return Math.min(Math.floor(progress * TOTAL), TOTAL - 1);
+    }
+
+    setTimeout(() => {
+      const idx = getIdx();
+      sets.forEach((s, i)     => s.classList.toggle('active', i === idx));
+      bdTitles.forEach((t, i) => t.classList.toggle('active', i === idx));
+      bdDescs.forEach((d, i)  => d.classList.toggle('active', i === idx));
+      bdLinks.forEach((l, i)  => l.classList.toggle('active', i === idx));
+      counter.textContent = pad(idx + 1) + ' / ' + pad(TOTAL);
+    }, 120);
+
+    let snapTimer = null;
+    let isSnapping = false;
+
+    function snapToSection(idx) {
+      isSnapping = true;
+      const layoutH  = pageLayout.offsetHeight - window.innerHeight;
+      const target   = pageLayout.offsetTop + (idx / TOTAL) * layoutH;
+      window.scrollTo({ top: target, behavior: 'smooth' });
+      setTimeout(() => { isSnapping = false; }, 600);
+    }
+
+    window.addEventListener('scroll', () => {
+      const scrolled   = window.scrollY;
+      const maxScroll  = document.body.scrollHeight - window.innerHeight;
+      const layoutTop  = -pageLayout.getBoundingClientRect().top;
+      const layoutH    = pageLayout.offsetHeight - window.innerHeight;
+      const progress   = Math.max(0, Math.min(1, layoutTop / layoutH));
+      const idx        = Math.min(Math.floor(progress * TOTAL), TOTAL - 1);
+
+      sets.forEach((s, i)     => s.classList.toggle('active', i === idx));
+      bdTitles.forEach((t, i) => t.classList.toggle('active', i === idx));
+      bdDescs.forEach((d, i)  => d.classList.toggle('active', i === idx));
+      bdLinks.forEach((l, i)  => l.classList.toggle('active', i === idx));
+      counter.textContent = pad(idx + 1) + ' / ' + pad(TOTAL);
+
+      const hintText = document.querySelector('.hint-text');
+      if (hintText) hintText.textContent = scrolled > maxScroll - 40 ? 'Scroll up' : 'Scroll down';
+      hint.style.opacity = scrolled > maxScroll - 40 ? '0' : '';
+      siteName.classList.toggle('hidden', scrolled > 20);
+
+      // Snap to section after scroll settles
+      if (!isSnapping) {
+        clearTimeout(snapTimer);
+        snapTimer = setTimeout(() => snapToSection(idx), 180);
+      }
+    });
+
+    // Lightbox
+    const lightbox    = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+
+    document.querySelectorAll('.grid-item').forEach(item => {
+      item.addEventListener('click', () => {
+        lightboxImg.src = item.querySelector('img').src;
+        lightbox.classList.add('open');
+      });
+    });
+
+    document.getElementById('lightboxClose').addEventListener('click', () => lightbox.classList.remove('open'));
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.classList.remove('open'); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') lightbox.classList.remove('open'); });
+
+    // Hamburger menu
+    const hamburger    = document.getElementById('hamburger');
+    const menuOverlay  = document.getElementById('menuOverlay');
+    hamburger.addEventListener('click', () => {
+      const isOpen = menuOverlay.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        menuOverlay.classList.remove('open');
+        hamburger.classList.remove('open');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -437,6 +437,14 @@
 
     .dive-image-frame img.active { opacity: 1; }
 
+    .dive-counter {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      margin-top: 2rem;
+    }
+
     .dive-mobile { display: none; }
 
     @media (max-width: 768px) {
@@ -571,9 +579,9 @@
       <a href="swag-design.html"><span>01</span> Swag Design</a>
       <a href="motion-graphics.html"><span>02</span> Motion Graphics</a>
       <a href="packaging-design.html"><span>03</span> Packaging Design</a>
-      <a href="event-signage.html"><span>04</span> Event Signage</a>
+      <a href="event-signage.html"><span>04</span> Event Design</a>
       <a href="web-design.html"><span>05</span> Web Design</a>
-      <a href="booklets-handouts.html"><span>06</span> Booklets &amp; Handouts</a>
+      <a href="brand-development.html"><span>06</span> Brand Development</a>
       <a href="illustration.html"><span>07</span> Illustration</a>
     </nav>
   </div>
@@ -709,6 +717,7 @@
               <p>SalesRabbit's booth always had traffic from people looking for the 'cool hats' or 'fun shirts,' giving our sales team more organic opportunities to start conversations and schedule demos. Our own employees wore and used the gear daily — turning every team member into a walking brand ambassador.</p>
             </div>
           </div>
+          <p class="dive-counter" id="diveCounter">01 / 04</p>
         </div>
         <div class="dive-right">
           <div class="dive-image-frame">
@@ -799,12 +808,15 @@
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') lightbox.classList.remove('open'); });
 
     // Deep Dive scroll switcher
-    const diveScroll  = document.getElementById('diveScroll');
-    const diveLeft    = document.getElementById('diveLeft');
-    const diveImages  = document.querySelectorAll('.dive-image-frame img');
-    const divePanels  = document.querySelectorAll('.dive-panel');
-    const diveTitles  = document.querySelectorAll('.dive-title');
-    const DIVE_STEPS  = 4;
+    const diveScroll   = document.getElementById('diveScroll');
+    const diveLeft     = document.getElementById('diveLeft');
+    const diveImages   = document.querySelectorAll('.dive-image-frame img');
+    const divePanels   = document.querySelectorAll('.dive-panel');
+    const diveTitles   = document.querySelectorAll('.dive-title');
+    const diveCounter  = document.getElementById('diveCounter');
+    const DIVE_STEPS   = 4;
+
+    function pad(n) { return String(n).padStart(2, '0'); }
 
     window.addEventListener('scroll', () => {
       const scrolled = -diveScroll.getBoundingClientRect().top;
@@ -815,6 +827,7 @@
       divePanels.forEach((p,   i) => p.classList.toggle('active',   i === idx));
       diveTitles.forEach((t,   i) => t.classList.toggle('active',   i === idx));
       diveLeft.classList.toggle('first-panel', idx === 0);
+      diveCounter.textContent = pad(idx + 1) + ' / ' + pad(DIVE_STEPS);
     });
 
     // Hamburger menu

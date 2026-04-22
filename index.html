@@ -183,22 +183,25 @@
     .section-links {
       display: flex;
       flex-direction: row;
-      flex-wrap: wrap;
-      gap: 0.25rem 1rem;
+      flex-wrap: nowrap;
+      gap: 0.25rem 2rem;
       position: fixed;
       bottom: 1.8rem;
-      left: 8vw;
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 50;
-      max-width: 84vw;
+      max-width: 92vw;
+      overflow: hidden;
     }
 
     .section-link {
       display: flex;
       align-items: baseline;
-      gap: 0.5rem;
-      font-size: 0.73rem;
-      letter-spacing: 0.1em;
+      gap: 0.3rem;
+      font-size: clamp(0.55rem, 0.85vw, 0.72rem);
+      letter-spacing: 0.06em;
       text-transform: uppercase;
+      white-space: nowrap;
       text-decoration: none;
       color: inherit;
       opacity: 0.45;
@@ -214,7 +217,7 @@
     .section-link.active { opacity: 1; color: #e84b74; }
 
     .section-link .sl-num {
-      font-size: 0.62rem;
+      font-size: inherit;
       color: #e84b74;
       letter-spacing: 0.15em;
     }
@@ -416,9 +419,9 @@
       <a href="swag-design.html"><span>01</span> Swag Design</a>
       <a href="motion-graphics.html"><span>02</span> Motion Graphics</a>
       <a href="packaging-design.html"><span>03</span> Packaging Design</a>
-      <a href="event-signage.html"><span>04</span> Event Signage</a>
+      <a href="event-signage.html"><span>04</span> Event Design</a>
       <a href="web-design.html"><span>05</span> Web Design</a>
-      <a href="booklets-handouts.html"><span>06</span> Booklets &amp; Handouts</a>
+      <a href="brand-development.html"><span>06</span> Brand Development</a>
       <a href="illustration.html"><span>07</span> Illustration</a>
     </nav>
   </div>
@@ -472,8 +475,8 @@
       </div>
       <div class="panel-content">
         <span class="panel-label">04</span>
-        <h1>Event Signage.</h1>
-        <p>Signs and banners.</p>
+        <h1>Event Design.</h1>
+        <p>Signs, banners, and handouts.</p>
         <a class="panel-link" href="event-signage.html">View more →</a>
       </div>
     </section>
@@ -490,15 +493,19 @@
       </div>
     </section>
 
-    <section class="panel p1">
-<div class="panel-frame">
-        <a href="booklets-handouts.html"><img class="panel-img" src="roofingbooklet.jpg" alt="Booklets and Handouts" style="object-fit: cover;" loading="lazy" decoding="async" /></a>
+    <section class="panel p3">
+      <div class="panel-frame">
+        <a href="brand-development.html">
+          <div class="panel-img" style="background: #ede8e2; display:flex; align-items:center; justify-content:center;">
+            <span style="font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; opacity:0.4;">Coming Soon</span>
+          </div>
+        </a>
       </div>
       <div class="panel-content">
         <span class="panel-label">06</span>
-        <h1>Booklets &amp; Handouts.</h1>
-        <p>Print &amp; Digital.</p>
-        <a class="panel-link" href="booklets-handouts.html">View more →</a>
+        <h1>Brand Development.</h1>
+        <p>Identity systems, and brand guidelines.</p>
+        <a class="panel-link" href="brand-development.html">View more →</a>
       </div>
     </section>
 
@@ -542,9 +549,9 @@
     <a class="section-link" href="swag-design.html"><span class="sl-num">01</span> Swag Design</a>
     <a class="section-link" href="motion-graphics.html"><span class="sl-num">02</span> Motion Graphics</a>
     <a class="section-link" href="packaging-design.html"><span class="sl-num">03</span> Packaging Design</a>
-    <a class="section-link" href="event-signage.html"><span class="sl-num">04</span> Event Signage</a>
+    <a class="section-link" href="event-signage.html"><span class="sl-num">04</span> Event Design</a>
     <a class="section-link" href="web-design.html"><span class="sl-num">05</span> Web Design</a>
-    <a class="section-link" href="booklets-handouts.html"><span class="sl-num">06</span> Booklets &amp; Handouts</a>
+    <a class="section-link" href="brand-development.html"><span class="sl-num">06</span> Brand Development</a>
     <a class="section-link" href="illustration.html"><span class="sl-num">07</span> Illustration</a>
     <button class="section-link" id="aboutLink"><span class="sl-num">—</span> About Me</button>
   </nav>
