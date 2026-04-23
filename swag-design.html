@@ -343,7 +343,7 @@
       text-transform: uppercase;
       color: var(--pink);
       margin-bottom: 1rem;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.4s ease, transform 0.4s ease;
     }
 
     .dive-left.first-panel .deep-dive-label { opacity: 0; pointer-events: none; }
@@ -699,19 +699,20 @@
           <span class="deep-dive-label">The Deep Dive</span>
           <div class="dive-titles">
             <h2 class="dive-title active">The Deep<br><span>Dive.</span></h2>
-            <h2 class="dive-title">Quality Over<br><span>Quantity.</span></h2>
             <h2 class="dive-title">Nix the<br><span>Boring Branding.</span></h2>
+            <h2 class="dive-title" style="top: 3.8rem;"><span>Personalization.</span></h2>
             <h2 class="dive-title">The<br><span>Result.</span></h2>
+
           </div>
           <div class="dive-panels">
             <div class="dive-panel active">
               <p>Let's be honest, a lot of swag ends up in the trash. A designer's job is to make sure that doesn't happen. Here's how.</p>
             </div>
             <div class="dive-panel">
-              <p>At trade shows, cheap branded merch is a dime a dozen. SalesRabbit stood out by ensuring each swag item was something someone would actually want to buy themselves. No cheap water bottles and keychains here. I ensured each item was strong enough to withstand the hard day's work of our target audience. Because when the swag lasts, the brand impression does, too.</p>
+              <p>Logo-only merch fails to stand out — so I brought fashion and branding together. Fun illustrations mixed with the SalesRabbit logo made the shirts look closer to something you'd see in a store. By staying ahead of current trends and designing for the wearer first, I ensured our gear went straight to the closet instead of the trash.</p>
             </div>
             <div class="dive-panel">
-              <p>Logo-only merch fails to stand out — so I brought fashion and branding together. Fun illustrations mixed with the SalesRabbit logo made the shirts look closer to something you'd see in a store. By staying ahead of current trends and designing for the wearer first, I ensured our gear went straight to the closet instead of the trash.</p>
+              <p>At trade shows, generic branded merchandise is a dime a dozen. I helped SalesRabbit stand out from the rest by creating a personalized swag experience. Attendees took a 'player type' quiz and received a custom t-shirt tailored to their specific results. To lean into the theme of Gamification, I designed video-game-inspired illustrations that visually represented each type. This increased swag ownership and made the shirts a high-demand item, all while capturing leads for our sales team.</p>
             </div>
             <div class="dive-panel">
               <p>SalesRabbit's booth always had traffic from people looking for the 'cool hats' or 'fun shirts,' giving our sales team more organic opportunities to start conversations and schedule demos. Our own employees wore and used the gear daily — turning every team member into a walking brand ambassador.</p>
@@ -722,9 +723,9 @@
         <div class="dive-right">
           <div class="dive-image-frame">
             <img src="Web_portfolioshirt_shirt1.jpg" alt="Swag Design 1" class="active" />
-            <img src="Web_portfolioshirt_shirt2.jpg" alt="Swag Design 2" />
-            <img src="Web_portfolioshirt_shirt3.jpg" alt="Swag Design 3" />
-            <img src="Web_portfolioshirt_shirt4.jpg" alt="Swag Design 4" />
+            <img src="newswag_swagnew3.jpg" alt="Swag Design 2" />
+            <img src="newswag_swagnew2.jpg" alt="Swag Design 3" />
+            <img src="newswag_swagnew1.jpg" alt="Swag Design 4" />
           </div>
         </div>
       </div>
@@ -738,21 +739,21 @@
       </div>
       <div class="dive-mobile-item">
         <img src="Web_portfolioshirt_shirt1.jpg" alt="Swag Design 1" />
-        <h3>Quality Over <span style="color:var(--pink)">Quantity.</span></h3>
-        <p>At trade shows, cheap branded merch is a dime a dozen. SalesRabbit stood out by ensuring each swag item was something someone would actually want to buy themselves. No cheap water bottles and keychains here. I ensured each item was strong enough to withstand the hard day's work of our target audience. Because when the swag lasts, the brand impression does, too.</p>
-      </div>
-      <div class="dive-mobile-item">
-        <img src="Web_portfolioshirt_shirt2.jpg" alt="Swag Design 2" />
         <h3>Nix the Boring <span style="color:var(--pink)">Branding.</span></h3>
         <p>Logo-only merch fails to stand out — so I brought fashion and branding together. Fun illustrations mixed with the SalesRabbit logo made the shirts look closer to something you'd see in a store. By staying ahead of current trends and designing for the wearer first, I ensured our gear went straight to the closet instead of the trash.</p>
       </div>
       <div class="dive-mobile-item">
-        <img src="Web_portfolioshirt_shirt3.jpg" alt="Swag Design 3" />
+        <img src="newswag_swagnew3.jpg" alt="Swag Design 2" />
+        <h3><span style="color:var(--pink)">Personalization.</span></h3>
+        <p>At trade shows, generic branded merchandise is a dime a dozen. I helped SalesRabbit stand out from the rest by creating a personalized swag experience. Attendees took a 'player type' quiz and received a custom t-shirt tailored to their specific results. To lean into the theme of Gamification, I designed video-game-inspired illustrations that visually represented each type. This increased swag ownership and made the shirts a high-demand item, all while capturing leads for our sales team.</p>
+      </div>
+      <div class="dive-mobile-item">
+        <img src="newswag_swagnew2.jpg" alt="Swag Design 3" />
         <h3>The <span style="color:var(--pink)">Result.</span></h3>
         <p>SalesRabbit's booth always had traffic from people looking for the 'cool hats' or 'fun shirts,' giving our sales team more organic opportunities to start conversations and schedule demos. Our own employees wore and used the gear daily — turning every team member into a walking brand ambassador.</p>
       </div>
       <div class="dive-mobile-item">
-        <img src="Web_portfolioshirt_shirt4.jpg" alt="Swag Design 4" />
+        <img src="newswag_swagnew1.jpg" alt="Swag Design 4" />
       </div>
     </div>
   </div>
@@ -818,6 +819,8 @@
 
     function pad(n) { return String(n).padStart(2, '0'); }
 
+    const diveLabel = document.querySelector('.deep-dive-label');
+
     window.addEventListener('scroll', () => {
       const scrolled = -diveScroll.getBoundingClientRect().top;
       const total    = diveScroll.offsetHeight - window.innerHeight;
@@ -828,6 +831,7 @@
       diveTitles.forEach((t,   i) => t.classList.toggle('active',   i === idx));
       diveLeft.classList.toggle('first-panel', idx === 0);
       diveCounter.textContent = pad(idx + 1) + ' / ' + pad(DIVE_STEPS);
+      diveLabel.style.transform = idx === 2 ? 'translateY(3.8rem)' : '';
     });
 
     // Hamburger menu
