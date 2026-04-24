@@ -625,7 +625,6 @@
     panels[0].classList.add('in-view');
 
     let current = 0, target = 0, raf = null;
-    const SCROLL_SPEED = 1.35;
 
     const maxX = () => (COUNT - 1) * window.innerWidth;
 
@@ -653,7 +652,7 @@
       e.preventDefault();
       hint.style.opacity = '0';
       const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-      target = Math.max(0, Math.min(maxX(), target + delta * SCROLL_SPEED));
+      target = Math.max(0, Math.min(maxX(), target + delta));
       if (!raf) raf = requestAnimationFrame(animate);
     }, { passive: false });
 
