@@ -228,7 +228,7 @@
     .fw-profiles-card {
       background: var(--fw-olive);
       border-radius: 2rem;
-      padding: 5rem 4rem;
+      padding: 5rem 4rem 7rem;
       color: white;
     }
 
@@ -410,7 +410,7 @@
       margin-bottom: 2rem;
     }
     .fw-compete-desc {
-      max-width: 700px;
+      max-width: 900px;
       margin: 0 auto 4rem;
       font-size: clamp(1rem, 1.8vw, 1.2rem);
       line-height: 1.7;
@@ -619,9 +619,53 @@
       border-radius: 0.75rem;
     }
 
-    .fw-review-text {
-      max-width: 800px;
+    .fw-review-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
     }
+    .fw-review-body {
+      font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+      line-height: 1.75;
+      color: var(--fw-text);
+      opacity: 0.85;
+    }
+    .fw-review-email {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 0.75rem;
+    }
+
+    .fw-web-scene {
+      position: relative;
+      width: 75%;
+      margin: 0 auto;
+      overflow: visible;
+    }
+    .fw-web-scene .fw-bof-img {
+      width: 100%;
+      margin: 0;
+      position: relative;
+      z-index: 2;
+    }
+    .fw-wi {
+      position: absolute;
+      z-index: 1;
+      opacity: 0.13;
+    }
+    .fw-wi-1  { width: 54px; top: 5%;   left: -12%; animation: fwFloat1 7s   ease-in-out infinite; }
+    .fw-wi-2  { width: 38px; top: 20%;  left: 108%; animation: fwFloat2 5.5s ease-in-out infinite 1s; }
+    .fw-wi-3  { width: 46px; top: 50%;  left: -13%; animation: fwFloat3 6s   ease-in-out infinite 0.5s; }
+    .fw-wi-4  { width: 44px; top: 70%;  left: 109%; animation: fwFloat1 8s   ease-in-out infinite 2s; }
+    .fw-wi-5  { width: 40px; top: -8%;  left: 18%;  animation: fwFloat2 6.5s ease-in-out infinite 1.5s; }
+    .fw-wi-6  { width: 50px; top: -8%;  left: 68%;  animation: fwFloat3 7.5s ease-in-out infinite 0.8s; }
+    .fw-wi-7  { width: 42px; top: 108%; left: 38%;  animation: fwFloat1 5s   ease-in-out infinite 3s; }
+    .fw-wi-8  { width: 46px; top: 105%; left: -12%; animation: fwFloat2 6s   ease-in-out infinite 1.2s; }
+    .fw-wi-9  { width: 38px; top: 110%; left: 108%; animation: fwFloat3 7s   ease-in-out infinite 0.4s; }
+    .fw-wi-10 { width: 44px; top: 112%; left: 16%;  animation: fwFloat1 5.5s ease-in-out infinite 2.5s; }
+    .fw-wi-11 { width: 52px; top: 107%; left: 66%;  animation: fwFloat2 8s   ease-in-out infinite 1.8s; }
 
     .fw-bof-text {
       max-width: 90%;
@@ -665,6 +709,7 @@
       .fw-gtm-inner { grid-template-columns: 1fr; gap: 2rem; }
 
       .fw-tof, .fw-mof, .fw-bof, .fw-review { padding: 0 1.5rem 3rem; }
+      .fw-review-inner { grid-template-columns: 1fr; gap: 2rem; }
       .fw-funnel-card { padding: 3rem 1.5rem; border-radius: 1.25rem; }
       .fw-funnel-body { grid-template-columns: 1fr; gap: 2rem; }
       .fw-tof-grid { grid-template-columns: 1fr; gap: 2rem; }
@@ -794,7 +839,7 @@
 
         <!-- Logo 3 -->
         <div class="fw-logo-variation" id="fwVar3">
-          <img src="logo-10.png" alt="Logo variation 3" class="fw-var-img"/>
+          <img src="logo2.png" alt="Logo variation 3" class="fw-var-img"/>
         </div>
 
       </div>
@@ -806,7 +851,7 @@
     <h2>FIRST<br>LOGO<br>VARIATIONS</h2>
     <img src="logo-08.png" alt="Logo variation 1" style="width:60%;height:auto;display:block;margin:0 auto 2rem;border-radius:0.5rem"/>
     <img src="logo-09.png" alt="Logo variation 2" style="width:60%;height:auto;display:block;margin:0 auto 2rem;border-radius:0.5rem"/>
-    <img src="logo-10.png" alt="Logo variation 3" style="width:60%;height:auto;display:block;margin:0 auto 2rem;border-radius:0.5rem"/>
+    <img src="logo2.png" alt="Logo variation 3" style="width:60%;height:auto;display:block;margin:0 auto 2rem;border-radius:0.5rem"/>
   </div>
 
   <!-- The Final -->
@@ -899,15 +944,45 @@
         <p class="fw-funnel-sub">BUILD YOUR OWN TOUR</p>
         <p>A "Build Your Own Tour" feature can serve as an effective bottom-of-the-funnel tool by allowing potential customers to plan their ideal Skagway experience. Not only does it make the trip feel more tangible and personalized, but it also increases engagement by helping travelers visualize their day before booking. By creating a custom itinerary, customers become more invested in the experience, making it easier for them to take the final step and schedule their tour.</p>
       </div>
-      <img src="web.png" alt="Build Your Own Tour web page mockup" class="fw-bof-img"/>
+      <div class="fw-web-scene">
+        <!-- Browser window -->
+        <svg class="fw-wi fw-wi-1" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="8" width="40" height="32" rx="5" stroke="white" stroke-width="2.5"/><line x1="4" y1="17" x2="44" y2="17" stroke="white" stroke-width="2.5"/><circle cx="11" cy="12.5" r="2" fill="white"/><circle cx="18" cy="12.5" r="2" fill="white"/><circle cx="25" cy="12.5" r="2" fill="white"/><rect x="29" y="10" width="11" height="5" rx="2" fill="white" opacity="0.5"/></svg>
+        <!-- Cursor -->
+        <svg class="fw-wi fw-wi-2" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 8l28 18-14 2-6 14z" fill="white"/></svg>
+        <!-- Checkbox checked -->
+        <svg class="fw-wi fw-wi-3" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="36" height="36" rx="7" stroke="white" stroke-width="2.5"/><path d="M15 24l8 8 12-14" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <!-- Star rating -->
+        <svg class="fw-wi fw-wi-4" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 6l4.5 13H42l-11 8 4.5 13L24 32l-11.5 8L17 27 6 19h13.5z" fill="white"/></svg>
+        <!-- Map pin -->
+        <svg class="fw-wi fw-wi-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 4C17.4 4 12 9.4 12 16c0 9 12 28 12 28s12-19 12-28c0-6.6-5.4-12-12-12z" fill="white"/><circle cx="24" cy="16" r="4" fill="#21211f"/></svg>
+        <!-- Calendar -->
+        <svg class="fw-wi fw-wi-6" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="10" width="38" height="32" rx="5" stroke="white" stroke-width="2.5"/><line x1="5" y1="20" x2="43" y2="20" stroke="white" stroke-width="2.5"/><line x1="16" y1="6" x2="16" y2="14" stroke="white" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="6" x2="32" y2="14" stroke="white" stroke-width="2.5" stroke-linecap="round"/><circle cx="16" cy="30" r="2.5" fill="white"/><circle cx="24" cy="30" r="2.5" fill="white"/><circle cx="32" cy="30" r="2.5" fill="white"/></svg>
+        <!-- Send/email -->
+        <svg class="fw-wi fw-wi-7" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 10h36L24 28 6 10z" fill="white" opacity="0.9"/><path d="M6 10v26h36V10L24 28 6 10z" stroke="white" stroke-width="2.5" stroke-linejoin="round"/></svg>
+        <!-- Extra bottom icons -->
+        <!-- Thumbs up -->
+        <svg class="fw-wi fw-wi-8" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 22l8-14c2 0 4 1 4 4v6h10c2 0 4 2 3 5l-4 12c-.5 1.5-2 2-3 2H14V22z" fill="white"/><rect x="6" y="22" width="8" height="18" rx="2" fill="white"/></svg>
+        <!-- Checkbox empty -->
+        <svg class="fw-wi fw-wi-9" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="36" height="36" rx="7" stroke="white" stroke-width="2.5"/></svg>
+        <!-- Magnifier -->
+        <svg class="fw-wi fw-wi-10" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="13" stroke="white" stroke-width="2.5"/><line x1="30" y1="30" x2="42" y2="42" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>
+        <!-- Ticket -->
+        <svg class="fw-wi fw-wi-11" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 16a4 4 0 0 0 0 8v8h40v-8a4 4 0 0 0 0-8v-8H4z" stroke="white" stroke-width="2.5" stroke-linejoin="round"/><line x1="18" y1="12" x2="18" y2="36" stroke="white" stroke-width="2" stroke-dasharray="3 3"/></svg>
+        <img src="web.png" alt="Build Your Own Tour web page mockup" class="fw-bof-img"/>
+      </div>
     </div>
   </section>
 
   <!-- Review Campaign -->
   <section class="fw-review">
-    <h2 class="fw-funnel-heading" style="color:var(--fw-text);margin-bottom:2rem;">REVIEW<br>CAMPAIGN</h2>
-    <div class="fw-funnel-content fw-review-text">
-      <p style="color:var(--fw-text);opacity:0.85;">Reviews are essential for attracting new customers and establishing credibility, but building a strong collection of reviews can be a slow and challenging process. By giving away hats at the end of the tour in exchange for a review, as well as sending follow-up emails a few weeks later, we create additional incentives and reminders that encourage guests to leave reviews.</p>
+    <div class="fw-review-inner">
+      <div class="fw-review-left">
+        <h2 class="fw-funnel-heading" style="color:var(--fw-text);margin-bottom:2rem;">REVIEW<br>CAMPAIGN</h2>
+        <p class="fw-review-body">Reviews are essential for attracting new customers and establishing credibility, but building a strong collection of reviews can be a slow and challenging process. By giving away hats at the end of the tour in exchange for a review, as well as sending follow-up emails a few weeks later, we create additional incentives and reminders that encourage guests to leave reviews.</p>
+      </div>
+      <div class="fw-review-right">
+        <img src="email.png" alt="Email follow-up" class="fw-review-email"/>
+      </div>
     </div>
   </section>
 
