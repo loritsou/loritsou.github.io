@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fireweed Tours Branding — Lori Tsou</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --pink: #e84b74;
+      --dark: #2c2825;
+      --bg: #faf7f4;
+      --fw-beige: #e3d9c8;
+      --fw-rust: #be4d38;
+      --fw-olive: #21211f;
+      --fw-text: #3c3828;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      color: var(--dark);
+      background: var(--bg);
+      overflow-x: hidden;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 4rem;
+      z-index: 100;
+      mix-blend-mode: multiply;
+    }
+
+    .back-link {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--dark);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: gap 0.2s;
+    }
+    .back-link:hover { gap: 0.8rem; }
+
+    .site-name {
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      transition: opacity 0.3s ease;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .site-name.hidden { opacity: 0; }
+    .site-name { text-decoration: none; color: var(--dark); }
+
+    /* ── Hamburger ── */
+    .hamburger {
+      display: flex;
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 301;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--dark);
+      transition: all 0.3s ease;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .menu-overlay {
+      position: fixed;
+      inset: 0;
+      background: #faf7f4;
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .menu-overlay.open { opacity: 1; pointer-events: auto; }
+
+    .menu-links {
+      padding-right: 3.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2rem;
+    }
+    .menu-links a {
+      font-size: clamp(1.4rem, 6vw, 2rem);
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--dark);
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      transition: color 0.2s;
+    }
+    .menu-links a:hover { color: var(--pink); }
+    .menu-links a span {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      font-weight: 400;
+      color: var(--pink);
+    }
+
+    /* ── Hero ── */
+    .fw-hero {
+      padding: 7rem 3rem 4rem;
+    }
+
+    .fw-hero-card {
+      background: var(--fw-beige);
+      border-radius: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 5rem 3rem 4rem;
+      min-height: 60vh;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.2s forwards;
+    }
+
+    .fw-logo {
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+      margin-bottom: 2rem;
+    }
+
+    .fw-logo-svg {
+      width: 70px;
+      flex-shrink: 0;
+    }
+
+    .fw-logo-wordmark {
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 900;
+      line-height: 0.88;
+      letter-spacing: -0.01em;
+      color: var(--fw-text);
+    }
+
+    .fw-brand-subtitle {
+      font-size: 0.85rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--fw-text);
+      opacity: 0.75;
+      font-weight: 600;
+    }
+
+    .fw-hero-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 1rem;
+    }
+
+    /* ── Overview ── */
+    .fw-overview {
+      padding: 7rem 4rem;
+      background: white;
+    }
+
+    .fw-overview-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 4rem;
+    }
+
+    .fw-overview-heading {
+      font-size: clamp(5rem, 10vw, 9rem);
+      font-weight: 900;
+      line-height: 0.82;
+      letter-spacing: -0.03em;
+      color: var(--fw-text);
+      text-shadow: none;
+    }
+
+    .fw-overview-right p {
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      line-height: 1.7;
+      color: var(--fw-text);
+      margin-bottom: 2rem;
+    }
+
+    .fw-overview-line {
+      width: 3.5rem;
+      height: 3px;
+      background: var(--fw-rust);
+      border-radius: 2px;
+    }
+
+    /* ── Customer Profiles ── */
+    .fw-profiles {
+      padding: 4rem 3rem 6rem;
+    }
+
+    .fw-profiles-card {
+      background: var(--fw-olive);
+      border-radius: 2rem;
+      padding: 5rem 4rem;
+      color: white;
+    }
+
+    .fw-profiles-heading {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      text-align: center;
+      margin-bottom: 2rem;
+      color: white;
+    }
+
+    .fw-profiles-desc {
+      max-width: 650px;
+      margin: 0 auto 4rem;
+      text-align: center;
+      font-size: 0.95rem;
+      line-height: 1.75;
+      opacity: 0.85;
+    }
+
+    .fw-profiles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+    }
+
+    .fw-profile {
+      display: flex;
+      flex-direction: row;
+      gap: 1.2rem;
+      align-items: flex-start;
+    }
+
+    .fw-profile-img {
+      width: 110px;
+      flex-shrink: 0;
+      aspect-ratio: 1;
+      background: #6b7040;
+      border-radius: 0.4rem;
+    }
+
+    .fw-profile-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: white;
+      line-height: 1.3;
+    }
+
+    .fw-profile-sub {
+      font-size: 0.85rem;
+      color: var(--fw-rust);
+      margin-top: 0.25rem;
+      line-height: 1.5;
+    }
+
+    .fw-profile ul {
+      list-style: disc;
+      padding-left: 1.1rem;
+      margin-top: 0.5rem;
+    }
+
+    .fw-profile ul li {
+      font-size: 0.85rem;
+      opacity: 0.85;
+      line-height: 1.7;
+    }
+
+    /* ── Logo Variations ── */
+    .fw-variations {
+      position: relative;
+      height: 300vh;
+    }
+
+    .fw-variations-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 0 4rem;
+      background: white;
+      overflow: hidden;
+    }
+
+    .fw-variations-heading {
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 900;
+      line-height: 0.85;
+      letter-spacing: -0.02em;
+      color: var(--fw-text);
+      text-shadow: none;
+    }
+
+    .fw-variations-right {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 60vh;
+    }
+
+    .fw-logo-variation {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+      pointer-events: none;
+    }
+
+    .fw-logo-variation.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .fw-var-img {
+      max-width: 340px;
+      width: 100%;
+      height: auto;
+      border-radius: 0.5rem;
+    }
+
+    .fw-variations-counter {
+      position: absolute;
+      bottom: 2rem;
+      left: 4rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.4;
+    }
+
+    /* mobile: show all stacked */
+    .fw-variations-mobile {
+      display: none;
+      padding: 4rem 1.5rem;
+      background: white;
+    }
+    .fw-variations-mobile h2 {
+      font-size: clamp(2.5rem, 12vw, 4rem);
+      font-weight: 900;
+      line-height: 0.85;
+      letter-spacing: -0.02em;
+      color: var(--fw-text);
+      text-shadow: none;
+      margin-bottom: 3rem;
+    }
+    .fw-variations-mobile svg {
+      width: 100%;
+      max-width: 280px;
+      height: auto;
+      display: block;
+      margin: 0 auto 3rem;
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Competitor Analysis ── */
+    .fw-compete {
+      padding: 7rem 4rem 2rem;
+      background: white;
+      text-align: center;
+    }
+    .fw-compete-heading {
+      font-size: clamp(3rem, 7vw, 6.5rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: var(--fw-text);
+      margin-bottom: 2rem;
+    }
+    .fw-compete-desc {
+      max-width: 700px;
+      margin: 0 auto 4rem;
+      font-size: clamp(1rem, 1.8vw, 1.2rem);
+      line-height: 1.7;
+      color: var(--fw-text);
+      opacity: 0.85;
+    }
+    .fw-compete-img {
+      width: 85%;
+      height: auto;
+      display: block;
+      border-radius: 1rem;
+      margin: 0 auto;
+    }
+
+    /* ── The Final ── */
+    .fw-final {
+      padding: 6rem 4rem 5rem;
+      background: white;
+    }
+    .fw-final-heading {
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 900;
+      line-height: 0.85;
+      letter-spacing: -0.02em;
+      color: var(--fw-text);
+      margin-bottom: 3rem;
+    }
+    .fw-final-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .fw-final-img {
+      width: 100%;
+      height: auto;
+      border-radius: 1.25rem;
+      display: block;
+    }
+
+    /* ── Moodboard ── */
+    .fw-moodboard {
+      padding: 0 3rem 4rem;
+    }
+    .fw-moodboard-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 2rem;
+    }
+
+    /* ── Go To Market Plan ── */
+    .fw-gtm {
+      padding: 7rem 4rem;
+      background: white;
+    }
+    .fw-gtm-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 4rem;
+    }
+    .fw-gtm-heading {
+      font-size: clamp(4rem, 8vw, 7.5rem);
+      font-weight: 900;
+      line-height: 0.82;
+      letter-spacing: -0.03em;
+      color: var(--fw-text);
+    }
+    .fw-gtm-right p {
+      font-size: clamp(1rem, 1.8vw, 1.2rem);
+      line-height: 1.75;
+      color: var(--fw-text);
+      margin-bottom: 2rem;
+    }
+
+    /* ── Funnel Sections ── */
+    .fw-tof, .fw-mof, .fw-bof, .fw-review { padding: 0 3rem 4rem; }
+
+    .fw-funnel-card {
+      border-radius: 2rem;
+      padding: 5rem 4rem;
+    }
+    .fw-funnel-dark { background: var(--fw-olive); color: white; }
+    .fw-funnel-light { background: var(--fw-beige); }
+
+    .fw-funnel-num {
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      opacity: 0.45;
+      margin-bottom: 0.75rem;
+    }
+    .fw-funnel-dark .fw-funnel-num { color: white; }
+    .fw-funnel-light .fw-funnel-num { color: var(--fw-text); }
+
+    .fw-funnel-heading {
+      font-size: clamp(2.5rem, 5vw, 5rem);
+      font-weight: 900;
+      line-height: 0.85;
+      letter-spacing: -0.02em;
+      margin-bottom: 3rem;
+    }
+    .fw-funnel-dark .fw-funnel-heading { color: white; }
+    .fw-funnel-light .fw-funnel-heading { color: var(--fw-text); }
+
+    .fw-funnel-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .fw-tof-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .fw-tof-right {
+      padding-top: 0;
+    }
+    .fw-funnel-sub {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--fw-rust);
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+    }
+    .fw-funnel-content p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      margin-bottom: 1.2rem;
+    }
+    .fw-funnel-dark .fw-funnel-content p { opacity: 0.85; }
+    .fw-funnel-light .fw-funnel-content p { color: var(--fw-text); opacity: 0.85; }
+
+    .fw-tof-phone {
+      width: 60%;
+      height: auto;
+      display: block;
+      border-radius: 0.75rem;
+      margin-left: auto;
+    }
+
+    /* Real ad image grid */
+    .fw-mof-text {
+      max-width: 800px;
+      margin-bottom: 3rem;
+    }
+    .fw-ads-real-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.25rem;
+      align-items: start;
+      max-width: 90%;
+      margin: 0 auto;
+    }
+    .fw-ad-single {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 0.75rem;
+    }
+    .fw-ads-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .fw-ads-stack img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 0.75rem;
+    }
+
+    .fw-bof-text {
+      max-width: 800px;
+      margin-bottom: 3rem;
+    }
+    .fw-bof-img {
+      width: 75%;
+      height: auto;
+      display: block;
+      border-radius: 0.75rem;
+      margin: 0 auto;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      .fw-variations { display: none; }
+      .fw-variations-mobile { display: block; }
+
+      nav { padding: 1.2rem 1.5rem; }
+
+      .fw-hero { padding: 5rem 1.5rem 3rem; }
+      .fw-hero-card { padding: 3rem 1.5rem; border-radius: 1.25rem; }
+      .fw-logo { flex-direction: column; gap: 1rem; text-align: center; }
+      .fw-logo-wordmark { text-align: center; font-size: clamp(2rem, 10vw, 3rem); }
+
+      .fw-overview { padding: 4rem 1.5rem; }
+      .fw-overview-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .fw-overview-heading { font-size: clamp(4rem, 18vw, 7rem); text-shadow: none; }
+
+      .fw-profiles { padding: 2rem 1.5rem 4rem; }
+      .fw-profiles-card { padding: 3rem 1.5rem; border-radius: 1.25rem; }
+      .fw-profiles-grid { grid-template-columns: 1fr; gap: 2rem; }
+
+      .fw-compete { padding: 4rem 1.5rem; }
+      .fw-final { padding: 4rem 1.5rem 3rem; }
+      .fw-final-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+
+      .fw-gtm { padding: 4rem 1.5rem; }
+      .fw-gtm-inner { grid-template-columns: 1fr; gap: 2rem; }
+
+      .fw-tof, .fw-mof, .fw-bof, .fw-review { padding: 0 1.5rem 3rem; }
+      .fw-funnel-card { padding: 3rem 1.5rem; border-radius: 1.25rem; }
+      .fw-funnel-body { grid-template-columns: 1fr; gap: 2rem; }
+      .fw-tof-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .fw-ads-real-grid { grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; }
+      .fw-ads-stack { gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <nav>
+    <a class="back-link" href="index.html">← Portfolio</a>
+    <a class="site-name" href="index.html">Lori Tsou</a>
+  </nav>
+
+  <div class="menu-overlay" id="menuOverlay">
+    <nav class="menu-links">
+      <a href="swag-design.html"><span>01</span> Swag Design</a>
+      <a href="motion-graphics.html"><span>02</span> Motion Graphics</a>
+      <a href="packaging-design.html"><span>03</span> Packaging Design</a>
+      <a href="event-signage.html"><span>04</span> Event Design</a>
+      <a href="fireweed-tours-branding.html"><span>05</span> Fireweed Tours</a>
+      <a href="brand-development.html"><span>06</span> Brand Development</a>
+      <a href="illustration.html"><span>07</span> Illustration</a>
+    </nav>
+  </div>
+
+  <!-- Hero -->
+  <section class="fw-hero">
+    <div class="fw-hero-card">
+      <img src="logo hero.png" alt="Fireweed Tours logo" class="fw-hero-img"/>
+    </div>
+  </section>
+
+  <!-- Overview -->
+  <section class="fw-overview">
+    <div class="fw-overview-inner">
+      <div class="fw-overview-left">
+        <h2 class="fw-overview-heading">OVER<br>VIEW</h2>
+      </div>
+      <div class="fw-overview-right">
+        <p>Fireweed Tours provides private tours of Skagway, combining the town's fascinating Gold Rush history with the stunning beauty of Alaska's surrounding mountains.</p>
+        <div class="fw-overview-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Customer Profiles -->
+  <section class="fw-profiles">
+    <div class="fw-profiles-card">
+      <h2 class="fw-profiles-heading">CUSTOMER PROFILES</h2>
+      <p class="fw-profiles-desc">Fireweed Tours primarily serves cruise visitors arriving in Skagway. To create a successful marketing and service strategy, it is important to first understand who these customers are and what they value most.</p>
+
+      <div class="fw-profiles-grid">
+
+        <div class="fw-profile">
+          <div class="fw-profile-img"></div>
+          <div>
+            <p class="fw-profile-name">Retired Cruise Enthusiast</p>
+            <p class="fw-profile-sub">Retired couple (65+) who enjoy guided travel.</p>
+            <ul>
+              <li>Minimal walking</li>
+              <li>Comfortable transportation</li>
+              <li>Flexible pace</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="fw-profile">
+          <div class="fw-profile-img"></div>
+          <div>
+            <p class="fw-profile-name">The Family</p>
+            <p class="fw-profile-sub">Parents traveling with young children.</p>
+            <ul>
+              <li>Easy way to keep track of kids</li>
+              <li>Flexible schedule for breaks</li>
+              <li>Family-friendly activities</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="fw-profile">
+          <div class="fw-profile-img"></div>
+          <div>
+            <p class="fw-profile-name">The Honeymooners</p>
+            <p class="fw-profile-sub">Newly married couple seeking a stress-free trip.</p>
+            <ul>
+              <li>No planning required</li>
+              <li>Private, romantic experiences</li>
+              <li>Seamless transportation and bookings</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Competitor Analysis -->
+  <section class="fw-compete">
+    <h2 class="fw-compete-heading">COMPETITOR ANALYSIS</h2>
+    <p class="fw-compete-desc">Analyzing competitors' offerings helped identify opportunities to position Fireweed Tours in a way that differentiates it from other tour operators in the market.</p>
+    <img src="compete.png" alt="Competitor analysis grid showing Skagway tour operators" class="fw-compete-img"/>
+  </section>
+
+  <!-- Logo Variations — desktop scroll-driven -->
+  <div class="fw-variations" id="fwVariations">
+    <div class="fw-variations-sticky">
+      <div>
+        <h2 class="fw-variations-heading">FIRST<br>LOGO<br>VARIATIONS</h2>
+      </div>
+      <div class="fw-variations-right">
+
+        <!-- Logo 1 -->
+        <div class="fw-logo-variation active" id="fwVar1">
+          <img src="logo-08.png" alt="Logo variation 1" class="fw-var-img"/>
+        </div>
+
+        <!-- Logo 2 -->
+        <div class="fw-logo-variation" id="fwVar2">
+          <img src="logo-09.png" alt="Logo variation 2" class="fw-var-img"/>
+        </div>
+
+        <!-- Logo 3 -->
+        <div class="fw-logo-variation" id="fwVar3">
+          <img src="logo-10.png" alt="Logo variation 3" class="fw-var-img"/>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Logo Variations — mobile static -->
+  <div class="fw-variations-mobile">
+    <h2>FIRST<br>LOGO<br>VARIATIONS</h2>
+    <img src="logo-08.png" alt="Logo variation 1" style="width:100%;height:auto;display:block;margin-bottom:3rem;border-radius:0.5rem"/>
+    <img src="logo-09.png" alt="Logo variation 2" style="width:100%;height:auto;display:block;margin-bottom:3rem;border-radius:0.5rem"/>
+    <img src="logo-10.png" alt="Logo variation 3" style="width:100%;height:auto;display:block;margin-bottom:3rem;border-radius:0.5rem"/>
+  </div>
+
+  <!-- The Final -->
+  <section class="fw-final">
+    <h2 class="fw-final-heading">THE FINAL</h2>
+    <div class="fw-final-grid">
+      <img src="logovariations-02.png" alt="Fireweed Tours final logo — light version" class="fw-final-img"/>
+      <img src="logovariations-03.png" alt="Fireweed Tours final logo — dark version" class="fw-final-img"/>
+    </div>
+  </section>
+
+  <!-- Moodboard -->
+  <section class="fw-moodboard">
+    <img src="moodboard.png" alt="Fireweed Tours moodboard" class="fw-moodboard-img"/>
+  </section>
+
+  <!-- Go To Market Plan -->
+  <section class="fw-gtm">
+    <div class="fw-gtm-inner">
+      <div>
+        <h2 class="fw-gtm-heading">GO TO<br>MARKET<br>PLAN</h2>
+      </div>
+      <div class="fw-gtm-right">
+        <p>The first priority of Fireweed Tours' go-to-market strategy was generating awareness. As a new brand with no reviews or track record, it was important to introduce the company to potential customers and establish credibility in the market.</p>
+        <div class="fw-overview-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Top of Funnel -->
+  <section class="fw-tof">
+    <div class="fw-funnel-card fw-funnel-dark fw-tof-grid">
+      <div class="fw-tof-left">
+        <p class="fw-funnel-num">01</p>
+        <h2 class="fw-funnel-heading">TOP OF<br>FUNNEL</h2>
+        <div class="fw-funnel-content">
+          <p class="fw-funnel-sub">HELPFUL CONTENT</p>
+          <p>To generate awareness, Fireweed Tours can start with top-of-the-funnel content designed to educate and entertain potential customers. Content such as local fun facts, hidden gems, and lesser-known spots around Skagway would provide value to viewers while helping generate organic traffic.</p>
+          <p>Rather than using direct sales pitches, each social media post would be created to offer value first by helping travelers learn something new. By consistently delivering useful and engaging content, Fireweed Tours can build trust, increase brand awareness, and establish a connection with potential customers before they begin actively searching for a tour.</p>
+        </div>
+      </div>
+      <div class="fw-tof-right">
+        <img src="tikphone.png" alt="Fireweed Tours social media content on phone" class="fw-tof-phone"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- Middle of Funnel -->
+  <section class="fw-mof">
+    <div class="fw-funnel-card fw-funnel-dark">
+      <p class="fw-funnel-num">02</p>
+      <h2 class="fw-funnel-heading">MIDDLE OF<br>FUNNEL</h2>
+      <div class="fw-funnel-content fw-mof-text">
+        <p class="fw-funnel-sub">TARGETED ADS</p>
+        <p>For middle-of-the-funnel advertising, Fireweed Tours should target those who've searched for tours with a focus on two key differentiators: avoiding crowds and offering customized private tours. Campaigns would highlight the ability to explore Skagway away from large tour groups while enjoying a personalized experience tailored to each guest's interests and pace.</p>
+      </div>
+      <div class="fw-ads-real-grid">
+        <img src="ads-04.png" alt="Go Where the Crowds Don't — portrait ad" class="fw-ad-single"/>
+        <div class="fw-ads-stack">
+          <img src="ads-05.png" alt="Go Where the Crowds Don't — landscape ad"/>
+          <img src="ads-06.png" alt="Your Tour Your Way — landscape ad"/>
+        </div>
+        <img src="ads-07.png" alt="Your Tour Your Way — portrait ad" class="fw-ad-single"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom of Funnel -->
+  <section class="fw-bof">
+    <div class="fw-funnel-card fw-funnel-dark">
+      <p class="fw-funnel-num">03</p>
+      <h2 class="fw-funnel-heading">BOTTOM OF<br>FUNNEL</h2>
+      <div class="fw-funnel-content fw-bof-text">
+        <p class="fw-funnel-sub">BUILD YOUR OWN TOUR</p>
+        <p>A "Build Your Own Tour" feature can serve as an effective bottom-of-the-funnel tool by allowing potential customers to plan their ideal Skagway experience. Not only does it make the trip feel more tangible and personalized, but it also increases engagement by helping travelers visualize their day before booking. By creating a custom itinerary, customers become more invested in the experience, making it easier for them to take the final step and schedule their tour.</p>
+      </div>
+      <img src="web.png" alt="Build Your Own Tour web page mockup" class="fw-bof-img"/>
+    </div>
+  </section>
+
+  <!-- Review Campaign -->
+  <section class="fw-review">
+    <div class="fw-funnel-card fw-funnel-light">
+      <h2 class="fw-funnel-heading">REVIEW<br>CAMPAIGN</h2>
+    </div>
+  </section>
+
+  <script>
+    const siteName = document.querySelector('.site-name');
+    window.addEventListener('scroll', () => {
+      siteName.classList.toggle('hidden', window.scrollY > 20);
+    });
+
+    // Logo variations scroll switcher
+    const fwVariations  = document.getElementById('fwVariations');
+    const fwVariants    = document.querySelectorAll('.fw-logo-variation');
+    const FW_STEPS      = 3;
+
+    function pad2(n) { return String(n).padStart(2, '0'); }
+
+    window.addEventListener('scroll', () => {
+      if (!fwVariations) return;
+      const scrolled = -fwVariations.getBoundingClientRect().top;
+      const total    = fwVariations.offsetHeight - window.innerHeight;
+      if (scrolled < 0 || scrolled > total) return;
+      const idx = Math.min(Math.floor((scrolled / total) * FW_STEPS), FW_STEPS - 1);
+      fwVariants.forEach((v, i) => v.classList.toggle('active', i === idx));
+    });
+
+    const hamburger = document.getElementById('hamburger');
+    const menuOverlay = document.getElementById('menuOverlay');
+    hamburger.addEventListener('click', () => {
+      const isOpen = menuOverlay.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        menuOverlay.classList.remove('open');
+        hamburger.classList.remove('open');
+      }
+    });
+  </script>
+</body>
+</html>
