@@ -242,7 +242,7 @@
     }
 
     .fw-profiles-desc {
-      max-width: 650px;
+      max-width: 75%;
       margin: 0 auto 4rem;
       text-align: center;
       font-size: 0.95rem;
@@ -549,17 +549,48 @@
     .fw-funnel-dark .fw-funnel-content p { opacity: 0.85; }
     .fw-funnel-light .fw-funnel-content p { color: var(--fw-text); opacity: 0.85; }
 
+    .fw-social-scene {
+      position: relative;
+    }
     .fw-tof-phone {
       width: 60%;
       height: auto;
       display: block;
       border-radius: 0.75rem;
-      margin-left: auto;
+      margin-left: 4rem;
+      position: relative;
+      z-index: 2;
+    }
+    .fw-si {
+      position: absolute;
+      opacity: 0.12;
+      z-index: 1;
+    }
+    .fw-si-1 { width: 52px; top: 5%;  left: 2%;   animation: fwFloat1 6s ease-in-out infinite; }
+    .fw-si-2 { width: 44px; top: 20%; left: 72%;  animation: fwFloat2 7s ease-in-out infinite 1s; }
+    .fw-si-3 { width: 40px; top: 40%; left: 5%;   animation: fwFloat1 5s ease-in-out infinite 0.5s; }
+    .fw-si-4 { width: 56px; top: 55%; left: 68%;  animation: fwFloat3 8s ease-in-out infinite 2s; }
+    .fw-si-5 { width: 42px; top: 70%; left: 0%;   animation: fwFloat2 6.5s ease-in-out infinite 1.5s; }
+    .fw-si-6 { width: 38px; top: 10%; left: 58%;  animation: fwFloat3 7.5s ease-in-out infinite 0.8s; }
+    .fw-si-7 { width: 36px; top: 82%; left: 65%;  animation: fwFloat1 5.5s ease-in-out infinite 3s; }
+
+    @keyframes fwFloat1 {
+      0%, 100% { transform: translateY(0)    rotate(0deg); }
+      50%       { transform: translateY(-14px) rotate(8deg); }
+    }
+    @keyframes fwFloat2 {
+      0%, 100% { transform: translateY(0)    rotate(0deg); }
+      50%       { transform: translateY(-10px) rotate(-6deg); }
+    }
+    @keyframes fwFloat3 {
+      0%, 100% { transform: translateY(0)    rotate(0deg); }
+      33%       { transform: translateY(-8px)  rotate(5deg); }
+      66%       { transform: translateY(-16px) rotate(-4deg); }
     }
 
     /* Real ad image grid */
     .fw-mof-text {
-      max-width: 800px;
+      max-width: 90%;
       margin-bottom: 3rem;
     }
     .fw-ads-real-grid {
@@ -588,8 +619,12 @@
       border-radius: 0.75rem;
     }
 
-    .fw-bof-text {
+    .fw-review-text {
       max-width: 800px;
+    }
+
+    .fw-bof-text {
+      max-width: 90%;
       margin-bottom: 3rem;
     }
     .fw-bof-img {
@@ -608,7 +643,8 @@
       nav { padding: 1.2rem 1.5rem; }
 
       .fw-hero { padding: 5rem 1.5rem 3rem; }
-      .fw-hero-card { padding: 3rem 1.5rem; border-radius: 1.25rem; }
+      .fw-hero-card { padding: 0; border-radius: 1.25rem; overflow: hidden; min-height: unset; align-items: stretch; }
+      .fw-hero-img { width: 100%; border-radius: 0; }
       .fw-logo { flex-direction: column; gap: 1rem; text-align: center; }
       .fw-logo-wordmark { text-align: center; font-size: clamp(2rem, 10vw, 3rem); }
 
@@ -621,6 +657,7 @@
       .fw-profiles-grid { grid-template-columns: 1fr; gap: 2rem; }
 
       .fw-compete { padding: 4rem 1.5rem; }
+      .fw-variations-mobile img { width: 70%; margin-left: auto; margin-right: auto; }
       .fw-final { padding: 4rem 1.5rem 3rem; }
       .fw-final-grid { grid-template-columns: 1fr; gap: 1.25rem; }
 
@@ -673,7 +710,7 @@
         <h2 class="fw-overview-heading">OVER<br>VIEW</h2>
       </div>
       <div class="fw-overview-right">
-        <p>Fireweed Tours provides private tours of Skagway, combining the town's fascinating Gold Rush history with the stunning beauty of Alaska's surrounding mountains.</p>
+        <p>Fireweed Tours provides private tours of Skagway, combining the town's fascinating Gold Rush history with the stunning beauty of Alaska's surrounding mountains. The primary challenge is building awareness and ensuring travelers consider Fireweed Tours when planning their visit.</p>
         <div class="fw-overview-line"></div>
       </div>
     </div>
@@ -767,9 +804,9 @@
   <!-- Logo Variations — mobile static -->
   <div class="fw-variations-mobile">
     <h2>FIRST<br>LOGO<br>VARIATIONS</h2>
-    <img src="logo-08.png" alt="Logo variation 1" style="width:100%;height:auto;display:block;margin-bottom:3rem;border-radius:0.5rem"/>
-    <img src="logo-09.png" alt="Logo variation 2" style="width:100%;height:auto;display:block;margin-bottom:3rem;border-radius:0.5rem"/>
-    <img src="logo-10.png" alt="Logo variation 3" style="width:100%;height:auto;display:block;margin-bottom:3rem;border-radius:0.5rem"/>
+    <img src="logo-08.png" alt="Logo variation 1" style="width:60%;height:auto;display:block;margin:0 auto 2rem;border-radius:0.5rem"/>
+    <img src="logo-09.png" alt="Logo variation 2" style="width:60%;height:auto;display:block;margin:0 auto 2rem;border-radius:0.5rem"/>
+    <img src="logo-10.png" alt="Logo variation 3" style="width:60%;height:auto;display:block;margin:0 auto 2rem;border-radius:0.5rem"/>
   </div>
 
   <!-- The Final -->
@@ -812,7 +849,23 @@
         </div>
       </div>
       <div class="fw-tof-right">
-        <img src="tikphone.png" alt="Fireweed Tours social media content on phone" class="fw-tof-phone"/>
+        <div class="fw-social-scene">
+          <!-- TikTok -->
+          <svg class="fw-si fw-si-1" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M34 8c1.5 3.5 4.5 5.5 8 6v6c-3 0-5.5-.8-8-2.2V30c0 7-5.5 12-12 12S10 37 10 30s5.5-12 12-12c.7 0 1.3.1 2 .2V25c-.7-.2-1.3-.3-2-.3-3.3 0-6 2.7-6 6s2.7 6 6 6 6-2.7 6-6V8h6z" fill="white"/></svg>
+          <!-- Instagram -->
+          <svg class="fw-si fw-si-2" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="36" height="36" rx="10" stroke="white" stroke-width="3"/><circle cx="24" cy="24" r="8" stroke="white" stroke-width="3"/><circle cx="35" cy="13" r="2.5" fill="white"/></svg>
+          <!-- Heart -->
+          <svg class="fw-si fw-si-3" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 40S8 30 8 18a8 8 0 0 1 16-2 8 8 0 0 1 16 2c0 12-16 22-16 22z" fill="white"/></svg>
+          <!-- YouTube play -->
+          <svg class="fw-si fw-si-4" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="10" width="40" height="28" rx="8" fill="white" opacity="0.9"/><path d="M20 17l12 7-12 7V17z" fill="#21211f"/></svg>
+          <!-- Comment bubble -->
+          <svg class="fw-si fw-si-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 8h32a4 4 0 0 1 4 4v20a4 4 0 0 1-4 4H14l-8 6V12a4 4 0 0 1 4-4z" fill="white"/></svg>
+          <!-- Share arrow -->
+          <svg class="fw-si fw-si-6" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="36" cy="10" r="6" stroke="white" stroke-width="3"/><circle cx="36" cy="38" r="6" stroke="white" stroke-width="3"/><circle cx="12" cy="24" r="6" stroke="white" stroke-width="3"/><line x1="30" y1="13" x2="18" y2="21" stroke="white" stroke-width="3"/><line x1="18" y1="27" x2="30" y2="35" stroke="white" stroke-width="3"/></svg>
+          <!-- Star -->
+          <svg class="fw-si fw-si-7" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 4l5 14h15l-12 9 5 14-13-9-13 9 5-14L4 18h15z" fill="white"/></svg>
+          <img src="tikphone.png" alt="Fireweed Tours social media content on phone" class="fw-tof-phone"/>
+        </div>
       </div>
     </div>
   </section>
@@ -852,8 +905,9 @@
 
   <!-- Review Campaign -->
   <section class="fw-review">
-    <div class="fw-funnel-card fw-funnel-light">
-      <h2 class="fw-funnel-heading">REVIEW<br>CAMPAIGN</h2>
+    <h2 class="fw-funnel-heading" style="color:var(--fw-text);margin-bottom:2rem;">REVIEW<br>CAMPAIGN</h2>
+    <div class="fw-funnel-content fw-review-text">
+      <p style="color:var(--fw-text);opacity:0.85;">Reviews are essential for attracting new customers and establishing credibility, but building a strong collection of reviews can be a slow and challenging process. By giving away hats at the end of the tour in exchange for a review, as well as sending follow-up emails a few weeks later, we create additional incentives and reminders that encourage guests to leave reviews.</p>
     </div>
   </section>
 
