@@ -619,11 +619,22 @@
       border-radius: 0.75rem;
     }
 
-    .fw-review-inner {
+    /* ── Review Campaign ── */
+    .fw-review-scroll {
+      position: relative;
+      height: 200vh;
+    }
+    .fw-review-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 5rem;
       align-items: center;
+      gap: 4rem;
+      padding: 0 4rem;
+      background: var(--bg);
+      overflow: hidden;
     }
     .fw-review-body {
       font-size: clamp(0.95rem, 1.6vw, 1.1rem);
@@ -631,11 +642,39 @@
       color: var(--fw-text);
       opacity: 0.85;
     }
-    .fw-review-email {
+    .fw-review-imgs {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 70vh;
+    }
+    .fw-review-img-slide {
+      position: absolute;
       width: 100%;
-      height: auto;
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+      pointer-events: none;
+    }
+    .fw-review-img-slide.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .fw-review-img {
+      max-height: 65vh;
+      width: auto;
+      max-width: 100%;
       border-radius: 0.75rem;
+      display: block;
+    }
+    .fw-review-mobile {
+      display: none;
+      padding: 4rem 1.5rem;
     }
 
     .fw-web-scene {
@@ -708,8 +747,9 @@
       .fw-gtm { padding: 4rem 1.5rem; }
       .fw-gtm-inner { grid-template-columns: 1fr; gap: 2rem; }
 
-      .fw-tof, .fw-mof, .fw-bof, .fw-review { padding: 0 1.5rem 3rem; }
-      .fw-review-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .fw-tof, .fw-mof, .fw-bof { padding: 0 1.5rem 3rem; }
+      .fw-review-scroll { display: none; }
+      .fw-review-mobile { display: block; }
       .fw-funnel-card { padding: 3rem 1.5rem; border-radius: 1.25rem; }
       .fw-funnel-body { grid-template-columns: 1fr; gap: 2rem; }
       .fw-tof-grid { grid-template-columns: 1fr; gap: 2rem; }
@@ -973,18 +1013,31 @@
     </div>
   </section>
 
-  <!-- Review Campaign -->
-  <section class="fw-review">
-    <div class="fw-review-inner">
+  <!-- Review Campaign — desktop scroll-driven -->
+  <div class="fw-review-scroll" id="fwReviewScroll">
+    <div class="fw-review-sticky">
       <div class="fw-review-left">
         <h2 class="fw-funnel-heading" style="color:var(--fw-text);margin-bottom:2rem;">REVIEW<br>CAMPAIGN</h2>
         <p class="fw-review-body">Reviews are essential for attracting new customers and establishing credibility, but building a strong collection of reviews can be a slow and challenging process. By giving away hats at the end of the tour in exchange for a review, as well as sending follow-up emails a few weeks later, we create additional incentives and reminders that encourage guests to leave reviews.</p>
       </div>
-      <div class="fw-review-right">
-        <img src="email.png" alt="Email follow-up" class="fw-review-email"/>
+      <div class="fw-review-imgs">
+        <div class="fw-review-img-slide active" id="fwRev1">
+          <img src="email.png" alt="Follow-up email" class="fw-review-img"/>
+        </div>
+        <div class="fw-review-img-slide" id="fwRev2">
+          <img src="fireweedtours_hat.png" alt="Fireweed Tours hat" class="fw-review-img"/>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
+
+  <!-- Review Campaign — mobile static -->
+  <div class="fw-review-mobile">
+    <h2 class="fw-funnel-heading" style="color:var(--fw-text);margin-bottom:2rem;">REVIEW<br>CAMPAIGN</h2>
+    <p class="fw-review-body" style="margin-bottom:2rem;">Reviews are essential for attracting new customers and establishing credibility, but building a strong collection of reviews can be a slow and challenging process. By giving away hats at the end of the tour in exchange for a review, as well as sending follow-up emails a few weeks later, we create additional incentives and reminders that encourage guests to leave reviews.</p>
+    <img src="email.png" alt="Follow-up email" style="width:100%;height:auto;border-radius:0.75rem;margin-bottom:1.5rem;display:block;"/>
+    <img src="fireweedtours_hat.png" alt="Fireweed Tours hat" style="width:100%;height:auto;border-radius:0.75rem;display:block;"/>
+  </div>
 
   <script>
     const siteName = document.querySelector('.site-name');
@@ -1006,6 +1059,20 @@
       if (scrolled < 0 || scrolled > total) return;
       const idx = Math.min(Math.floor((scrolled / total) * FW_STEPS), FW_STEPS - 1);
       fwVariants.forEach((v, i) => v.classList.toggle('active', i === idx));
+    });
+
+    // Review scroll switcher
+    const fwReviewScroll = document.getElementById('fwReviewScroll');
+    const fwRevSlides    = document.querySelectorAll('.fw-review-img-slide');
+    const FW_REV_STEPS   = 2;
+
+    window.addEventListener('scroll', () => {
+      if (!fwReviewScroll) return;
+      const scrolled = -fwReviewScroll.getBoundingClientRect().top;
+      const total    = fwReviewScroll.offsetHeight - window.innerHeight;
+      if (scrolled < 0 || scrolled > total) return;
+      const idx = Math.min(Math.floor((scrolled / total) * FW_REV_STEPS), FW_REV_STEPS - 1);
+      fwRevSlides.forEach((s, i) => s.classList.toggle('active', i === idx));
     });
 
     const hamburger = document.getElementById('hamburger');
