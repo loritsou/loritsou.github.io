@@ -130,12 +130,12 @@
 
     /* ── Hero ── */
     .fw-hero {
-      padding: 7rem 3rem 4rem;
+      padding: 7rem 0 4rem;
+      background: var(--fw-beige);
     }
 
     .fw-hero-card {
-      background: var(--fw-beige);
-      border-radius: 2rem;
+      border-radius: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -218,84 +218,6 @@
       height: 3px;
       background: var(--fw-rust);
       border-radius: 2px;
-    }
-
-    /* ── Customer Profiles ── */
-    .fw-profiles {
-      padding: 4rem 3rem 6rem;
-    }
-
-    .fw-profiles-card {
-      background: var(--fw-olive);
-      border-radius: 2rem;
-      padding: 5rem 4rem 7rem;
-      color: white;
-    }
-
-    .fw-profiles-heading {
-      font-size: clamp(2.5rem, 6vw, 5rem);
-      font-weight: 900;
-      letter-spacing: -0.01em;
-      text-align: center;
-      margin-bottom: 2rem;
-      color: white;
-    }
-
-    .fw-profiles-desc {
-      max-width: 75%;
-      margin: 0 auto 4rem;
-      text-align: center;
-      font-size: 0.95rem;
-      line-height: 1.75;
-      opacity: 0.85;
-    }
-
-    .fw-profiles-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2.5rem;
-    }
-
-    .fw-profile {
-      display: flex;
-      flex-direction: row;
-      gap: 1.2rem;
-      align-items: flex-start;
-    }
-
-    .fw-profile-img {
-      width: 110px;
-      height: 110px;
-      flex-shrink: 0;
-      object-fit: cover;
-      object-position: center top;
-      border-radius: 0.4rem;
-    }
-
-    .fw-profile-name {
-      font-size: 1rem;
-      font-weight: 700;
-      color: white;
-      line-height: 1.3;
-    }
-
-    .fw-profile-sub {
-      font-size: 0.85rem;
-      color: var(--fw-rust);
-      margin-top: 0.25rem;
-      line-height: 1.5;
-    }
-
-    .fw-profile ul {
-      list-style: disc;
-      padding-left: 1.1rem;
-      margin-top: 0.5rem;
-    }
-
-    .fw-profile ul li {
-      font-size: 0.85rem;
-      opacity: 0.85;
-      line-height: 1.7;
     }
 
     /* ── Logo Variations ── */
@@ -489,13 +411,14 @@
     }
 
     /* ── Funnel Sections ── */
-    .fw-tof, .fw-mof, .fw-bof, .fw-review { padding: 0 3rem 4rem; }
+    .fw-tof, .fw-mof, .fw-bof { padding: 0; background: var(--fw-olive); color: white; }
+    .fw-review { padding: 0 3rem 4rem; }
 
     .fw-funnel-card {
-      border-radius: 2rem;
+      border-radius: 0;
       padding: 5rem 4rem;
     }
-    .fw-funnel-dark { background: var(--fw-olive); color: white; }
+    .fw-funnel-dark { background: none; color: white; }
     .fw-funnel-light { background: var(--fw-beige); }
 
     .fw-funnel-num {
@@ -725,8 +648,8 @@
 
       nav { padding: 1.2rem 1.5rem; }
 
-      .fw-hero { padding: 5rem 1.5rem 3rem; }
-      .fw-hero-card { padding: 0; border-radius: 1.25rem; overflow: hidden; min-height: unset; align-items: stretch; }
+      .fw-hero { padding: 5rem 0 3rem; }
+      .fw-hero-card { padding: 0; border-radius: 0; overflow: hidden; min-height: unset; align-items: stretch; }
       .fw-hero-img { width: 100%; border-radius: 0; }
       .fw-logo { flex-direction: column; gap: 1rem; text-align: center; }
       .fw-logo-wordmark { text-align: center; font-size: clamp(2rem, 10vw, 3rem); }
@@ -735,11 +658,7 @@
       .fw-overview-inner { grid-template-columns: 1fr; gap: 2.5rem; }
       .fw-overview-heading { font-size: clamp(4rem, 18vw, 7rem); text-shadow: none; }
 
-      .fw-profiles { padding: 2rem 1.5rem 4rem; }
-      .fw-profiles-card { padding: 3rem 1.5rem; border-radius: 1.25rem; }
-      .fw-profiles-grid { grid-template-columns: 1fr; gap: 2rem; }
-
-      .fw-compete { padding: 4rem 1.5rem; }
+.fw-compete { padding: 4rem 1.5rem; }
       .fw-variations-mobile img { width: 70%; margin-left: auto; margin-right: auto; }
       .fw-final { padding: 4rem 1.5rem 3rem; }
       .fw-final-grid { grid-template-columns: 1fr; gap: 1.25rem; }
@@ -747,10 +666,10 @@
       .fw-gtm { padding: 4rem 1.5rem; }
       .fw-gtm-inner { grid-template-columns: 1fr; gap: 2rem; }
 
-      .fw-tof, .fw-mof, .fw-bof { padding: 0 1.5rem 3rem; }
+      .fw-tof, .fw-mof, .fw-bof { padding: 0; }
       .fw-review-scroll { display: none; }
       .fw-review-mobile { display: block; }
-      .fw-funnel-card { padding: 3rem 1.5rem; border-radius: 1.25rem; }
+      .fw-funnel-card { padding: 3rem 1.5rem; border-radius: 0; }
       .fw-funnel-body { grid-template-columns: 1fr; gap: 2rem; }
       .fw-tof-grid { grid-template-columns: 1fr; gap: 2rem; }
       .fw-ads-real-grid { grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; }
@@ -798,57 +717,6 @@
       <div class="fw-overview-right">
         <p>Fireweed Tours provides private tours of Skagway, combining the town's fascinating Gold Rush history with the stunning beauty of Alaska's surrounding mountains. The primary challenge is building awareness and ensuring travelers consider Fireweed Tours when planning their visit.</p>
         <div class="fw-overview-line"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Customer Profiles -->
-  <section class="fw-profiles">
-    <div class="fw-profiles-card">
-      <h2 class="fw-profiles-heading">CUSTOMER PROFILES</h2>
-      <p class="fw-profiles-desc">Fireweed Tours primarily serves cruise visitors arriving in Skagway. To create a successful marketing and service strategy, it is important to first understand who these customers are and what they value most.</p>
-
-      <div class="fw-profiles-grid">
-
-        <div class="fw-profile">
-          <img src="customer-12.jpg" alt="Retired Cruise Enthusiast" class="fw-profile-img"/>
-          <div>
-            <p class="fw-profile-name">Retired Cruise Enthusiast</p>
-            <p class="fw-profile-sub">Retired couple (65+) who enjoy guided travel.</p>
-            <ul>
-              <li>Minimal walking</li>
-              <li>Comfortable transportation</li>
-              <li>Flexible pace</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="fw-profile">
-          <img src="customer-13.jpg" alt="The Family" class="fw-profile-img"/>
-          <div>
-            <p class="fw-profile-name">The Family</p>
-            <p class="fw-profile-sub">Parents traveling with young children.</p>
-            <ul>
-              <li>Easy way to keep track of kids</li>
-              <li>Flexible schedule for breaks</li>
-              <li>Family-friendly activities</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="fw-profile">
-          <img src="customer-14.jpg" alt="The Honeymooners" class="fw-profile-img"/>
-          <div>
-            <p class="fw-profile-name">The Honeymooners</p>
-            <p class="fw-profile-sub">Newly married couple seeking a stress-free trip.</p>
-            <ul>
-              <li>No planning required</li>
-              <li>Private, romantic experiences</li>
-              <li>Seamless transportation and bookings</li>
-            </ul>
-          </div>
-        </div>
-
       </div>
     </div>
   </section>
