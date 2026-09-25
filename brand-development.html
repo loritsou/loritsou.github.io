@@ -19,7 +19,6 @@
     .back-link:hover { gap: 0.8rem; }
     .site-name { position: absolute; left: 50%; transform: translateX(-50%); font-size: 0.8rem; letter-spacing: 0.12em; opacity: 0.4; }
     .slide-counter { position: fixed; right: 2.5rem; bottom: 2rem; z-index: 100; color: rgba(44, 40, 37, 0.58); font-size: 0.75rem; letter-spacing: 0.2em; }
-    .hint { position: fixed; bottom: 2rem; left: 2.5rem; z-index: 100; color: rgba(44, 40, 37, 0.55); font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; transition: opacity 0.25s ease; }
     .hamburger { position: fixed; top: 1.5rem; right: 1.5rem; z-index: 301; display: flex; flex-direction: column; gap: 5px; padding: 4px; border: 0; background: none; cursor: pointer; }
     .hamburger span { width: 22px; height: 2px; background: var(--dark); transition: all 0.3s ease; }
     .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
@@ -41,7 +40,7 @@
       .slide + .slide { margin-top: 0.5rem; }
       .slide-frame { width: 100%; height: auto; aspect-ratio: 16 / 9; }
       .slide img { object-fit: contain; }
-      .hint, .slide-counter { display: none; }
+      .slide-counter { display: none; }
       .menu-links { gap: 1.35rem; padding-right: 1.5rem; }
     }
     @media (prefers-reduced-motion: reduce) { .slide-frame { transition: none; } }
@@ -57,8 +56,8 @@
     <nav class="menu-links">
       <a href="index.html"><span>00</span> Home</a>
       <a href="brand-development.html"><span>01</span> Rebrand</a>
-      <a href="fireweed-tours-branding.html"><span>02</span> Brand Strategy</a>
-      <a href="swag-design.html"><span>03</span> Swag Design</a>
+      <a href="swag-design.html"><span>02</span> Swag Design</a>
+      <a href="fireweed-tours-branding.html"><span>03</span> Brand Strategy</a>
       <a href="motion-graphics.html"><span>04</span> Motion Graphics</a>
       <a href="packaging-design.html"><span>05</span> Packaging Design</a>
       <a href="event-signage.html"><span>06</span> Event Design</a>
@@ -90,13 +89,11 @@
     <section class="slide"><div class="slide-frame"><img src="Launch Visuals_Page_23.png" alt="Launch Visuals page 23" loading="lazy" /></div></section>
     <section class="slide"><div class="slide-frame"><img src="Launch Visuals_Page_24.png" alt="Launch Visuals page 24" loading="lazy" /></div></section>
   </main>
-  <p class="hint" id="hint">Scroll to explore</p>
   <p class="slide-counter" id="slideCounter">01 / 22</p>
   <script>
     const track = document.getElementById('track');
     const slides = [...document.querySelectorAll('.slide')];
     const counter = document.getElementById('slideCounter');
-    const hint = document.getElementById('hint');
     const hamburger = document.getElementById('hamburger');
     const menuOverlay = document.getElementById('menuOverlay');
     const mobile = () => window.innerWidth <= 768;
@@ -120,7 +117,6 @@
       lastActiveSlide = activeSlide;
       slides.forEach((slide, index) => slide.classList.toggle('is-visible', Math.abs(index - activeSlide) <= 1));
       counter.textContent = `${pad(activeSlide + 1)} / ${pad(slides.length)}`;
-      hint.style.opacity = activeSlide === slides.length - 1 ? '0' : '1';
       warmSlides(activeSlide);
     }
     function animate() {
