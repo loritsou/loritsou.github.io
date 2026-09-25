@@ -7,6 +7,7 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root { --pink: #e84b74; --dark: #2c2825; --bg: #f4f5f6; }
+    html, body { scroll-snap-type: none; }
     body { font-family: 'Segoe UI', system-ui, sans-serif; color: var(--dark); background: var(--bg); overflow: hidden; }
     .track { position: fixed; inset: 0 auto auto 0; display: flex; height: 100vh; will-change: transform; }
     .slide { width: 100vw; height: 100vh; flex: 0 0 100vw; display: grid; place-items: center; padding: 0; }
@@ -102,6 +103,7 @@
     let target = 0;
     let animationFrame = null;
     let lastActiveSlide = -1;
+    let lastFrameTime = null;
     const maxX = () => (slides.length - 1) * window.innerWidth;
     function warmSlides(startIndex) {
       slides.slice(startIndex, startIndex + 4).forEach(slide => {
@@ -119,11 +121,19 @@
       counter.textContent = `${pad(activeSlide + 1)} / ${pad(slides.length)}`;
       warmSlides(activeSlide);
     }
-    function animate() {
-      current += (target - current) * 0.2;
-      if (Math.abs(target - current) < 0.5) {
+    function animate(time) {
+      if (lastFrameTime === null) lastFrameTime = time;
+      const dt = Math.min(48, time - lastFrameTime);
+      lastFrameTime = time;
+      // Frame-rate independent easing: converges at the same real-world speed
+      // whether the display refreshes at 60Hz or 120Hz+, so it glides instead
+      // of snapping to place on high-refresh screens.
+      const ease = 1 - Math.pow(1 - 0.14, dt / (1000 / 60));
+      current += (target - current) * ease;
+      if (Math.abs(target - current) < 0.4) {
         current = target;
         animationFrame = null;
+        lastFrameTime = null;
       } else {
         animationFrame = requestAnimationFrame(animate);
       }
