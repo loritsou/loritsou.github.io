@@ -14,7 +14,7 @@
     .slide.is-visible .slide-frame { opacity: 1; }
     .slide img { display: block; width: 100%; height: 100%; object-fit: cover; }
     nav { position: fixed; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 4rem; z-index: 100; mix-blend-mode: multiply; }
-    .back-link, .site-name { color: var(--dark); text-decoration: none; text-transform: uppercase; }
+    .back-link, .site-name { color: var(--dark); text-decoration: none; }
     .back-link { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; letter-spacing: 0.15em; transition: gap 0.2s ease; }
     .back-link:hover { gap: 0.8rem; }
     .site-name { position: absolute; left: 50%; transform: translateX(-50%); font-size: 0.8rem; letter-spacing: 0.12em; opacity: 0.4; }
@@ -48,7 +48,7 @@
 </head>
 <body>
   <nav>
-    <a class="back-link" href="index.html">← Portfolio</a>
+    <a class="back-link" href="index.html">← Back</a>
     <a class="site-name" href="index.html">Lori Tsou</a>
   </nav>
   <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
